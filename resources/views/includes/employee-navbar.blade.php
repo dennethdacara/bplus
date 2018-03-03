@@ -7,15 +7,12 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="{{ route('customerDashboard') }}">Beauty Plus <br> Salon</a>
+            <a class="navbar-brand" href="{{ route('employeeDashboard') }}">Beauty Plus <br> Salon</a>
         </div>
         <div class="navbar-collapse collapse navbar-right">
             <ul class="nav navbar-nav">
-                <li><a href="{{ route('customerDashboard') }}">HOME</a></li>
-                <li><a href="{{ route('customerAddOnSpaReservation') }}">ON SPA RESERVATION</a></li>
-                <li><a href="{{ route('customerAddHomeServiceReservation') }}">HOME SERVICE RESERVATION</a></li>
-                <li><a href="{{ route('customerViewAllReservations') }}">MY RESERVATIONS</a></li>
-                <li><a href="{{ route('customerViewAllPayments') }}">MY PAYMENTS</a></li>
+                <li><a href="{{ route('employeeDashboard') }}">HOME</a></li>
+                <li><a href="{{ route('employeeViewAllReservations')}}">VIEW RESERVATION</a></li>
 
                 @guest
                 <li><a href="{{ route('register') }}">REGISTER</a></li>

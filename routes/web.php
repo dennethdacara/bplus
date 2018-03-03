@@ -84,4 +84,14 @@ route::group(['middleware' => 'auth'], function() {
 	route::get('customer/payment/all', 'CustomerPaymentsController@customerViewAllPayments')
 		->name('customerViewAllPayments');
 
+	//Employee
+	//reservations
+	route::get('employee/reservation/all', 'EmployeeReservationsController@viewAllReservations')->name('employeeViewAllReservations');
+
+	route::get('employee/reservation/approve/{reservation_id}', 'EmployeeReservationsController@employeeApproveReservation')
+		->name('employeeApproveReservation');
+
+	route::get('employee/reservation/cancel/{reservation_id}', 'EmployeeReservationsController@employeeCancelReservation')
+		->name('employeeCancelReservation');
+
 });
