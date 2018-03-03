@@ -75,7 +75,7 @@
 							<div class="col-lg-4">
 								<br>
 								<label>Contact #:</label>
-								<input type="contact" class="form-control" name="contact_no" id="contact_no" autofocus placeholder="Contact #" required>
+								<input type="number" class="form-control" name="contact_no" id="contact_no" autofocus placeholder="Contact #" required>
 
 								@if ($errors->has('contact_no'))
                                     <span class="help-info">

@@ -46,7 +46,8 @@
 
 						<div class="col-lg-6 col-md-6">
 							<br><label>Contact:</label>
-							<input type="contact" class="form-control" @if ($errors->has('contact_no'))style="border-color: red;" @endif name="contact_no" value="{{ old('contact_no') }}" required placeholder="Your Contact number">
+							<input type="number" class="form-control" @if ($errors->has('contact_no'))
+							style="border-color: red;" @endif name="contact_no" value="{{ old('contact_no') }}" required placeholder="Your Contact number">
 
 							@if ($errors->has('contact_no'))
                                 <strong>{{ $errors->first('contact_no') }}</strong>
