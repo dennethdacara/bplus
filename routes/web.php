@@ -24,6 +24,7 @@ route::group(['middleware' => 'auth'], function() {
 	route::resource('service-type', 'ServiceTypeController'); //SERVICE TYPES
 	route::resource('employees', 'EmployeesController'); //EMPLOYEES
 	route::resource('walk-in', 'WalkinController'); //WALKINS
+	route::resource('expertise', 'ExpertiseController'); //EXPERTISE
 
 	//commissions
 	route::get('admin/employee-commissions', 'CommissionsController@viewAllCommissions')->name('viewAllCommissions');
