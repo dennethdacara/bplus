@@ -84,7 +84,7 @@
 							<br><label>Hairstylist:</label>
 							<select name="employee_id" id="" class="form-control">
 								@foreach($employees as $employee)
-									<option value="{{$employee->id}}">{{$employee->firstname}} {{$employee->lastname}}</option>
+									<option value="{{$employee->id}}">{{$employee->firstname}} {{$employee->lastname}} | Expertise: {{$employee->expertise}}</option>
 								@endforeach
 							</select>
 

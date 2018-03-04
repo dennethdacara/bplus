@@ -73,7 +73,7 @@
 							<br><label>Hair Stylist:</label>
 							<select name="user_id" class="form-control">
 								@foreach($hairstylists as $hairstylist)
-									<option value="{{$hairstylist->id}}">{{$hairstylist->firstname}}</option>
+									<option value="{{$hairstylist->id}}">{{$hairstylist->firstname}} | Expertise: {{$hairstylist->expertise}}</option>
 								@endforeach
 							</select>
 
