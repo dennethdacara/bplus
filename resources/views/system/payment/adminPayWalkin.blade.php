@@ -28,6 +28,7 @@
 						<h3>Total Amount Due: P{{$getTotalAmountDue[0]->total}}</h3>
 
 						<input type="hidden" name="totalAmountDue" value="{{$getTotalAmountDue[0]->total}}">
+						<input type="hidden" name="employee_id" value="{{$getTotalAmountDue[0]->employee_id}}">
 
 					</div>
 		 			<div class="col-lg-6 col-md-6">

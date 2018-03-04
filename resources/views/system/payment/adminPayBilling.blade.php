@@ -28,7 +28,7 @@
 						<div class="panel panel-default">
 				    		<div class="panel-body" style="background:#384452;overflow-x:auto;">
 				    			<div class="col-lg-12">
-				    				<table class="table table-stripped">
+				    				<table class="table table-stripped" id="adminPayReservationBilling-table">
 									<thead>
 										<tr>
 											<th>#</th>
@@ -42,14 +42,13 @@
 											<tr>
 												<td>{{$getAllService->id}}</td>
 												<td>{{$getAllService->service_name}}</td>
-												<td>P{{$getAllService->price}}</td>
+												<td>&#8369;{{$getAllService->price}}</td>
 												<td>{{$getAllService->created_at}}</td>
 											</tr>
 										@endforeach
 									</tbody>
 				    				</table>
 
-				    				<center>{{ $getAllServices->links() }}</center>
 								</div>
 				    		</div>
     					</div>
@@ -66,11 +65,12 @@
 					<div class="col-lg-12">
 						<br>
 						<h3>HairStylist: {{$getAllServices[0]->hairstylist_firstname}} {{$getAllServices[0]->hairstylist_lastname}}</h3>
-						<h3>Total Amount Due: P{{$getTotalAmountDue->total}}</h3>
+						<h3>Total Amount Due: &#8369;{{$getTotalAmountDue->total}}</h3>
 
 						<input type="hidden" name="totalAmountDue" value="{{$getTotalAmountDue->total}}">
 						<input type="hidden" name="customer_id" value="{{$getAllServices[0]->customer_id}}">
 						<input type="hidden" name="billing_id" value="{{$getAllServices[0]->billing_id}}">
+						<input type="hidden" name="employee_id" value="{{$getAllServices[0]->employee_id}}">
 					</div>
 		 			<div class="col-lg-6 col-md-6">
 							<br><h4>Enter Amount:</h4>

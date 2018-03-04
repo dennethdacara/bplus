@@ -16,7 +16,7 @@ class ServicesController extends Controller
     {
         $services = Service::join('service_type', 'service_type.id', 'services.service_type_id')
             ->select('services.*', 'service_type.name as service_type')
-            ->orderBy('services.created_at', 'desc')->paginate(8);
+            ->get();
         return view ('system/services/index', compact('services'));
     }
 

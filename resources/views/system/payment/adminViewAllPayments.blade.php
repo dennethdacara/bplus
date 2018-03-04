@@ -9,7 +9,7 @@
   		<div class="panel panel-default">
     		<div class="panel-body" style="background:#384452;overflow-x:auto;">
     			<div class="col-lg-12">
-    			<table class="table table-stripped">
+    			<table class="table table-stripped" id="adminViewAllPayments-table">
 					<thead>
 						<tr>
 							<th>#</th>
@@ -24,8 +24,8 @@
 							<tr>
 								<td>{{$payment->id}}</td>
 								<td>{{$payment->customer_firstname}} {{$payment->customer_lastname}}</td>
-								<td>P{{$payment->total_amount}}</td>
-								<td>P{{$payment->amount_paid}}</td>
+								<td>&#8369;{{$payment->total_amount}}</td>
+								<td>&#8369;{{$payment->amount_paid}}</td>
 								@php
 									$date_added = date("M jS, Y h:i a", strtotime($payment->created_at)); 
 								@endphp
@@ -35,7 +35,6 @@
 					</tbody>
     			</table>
 
-    				<center>{{ $payments->links() }}</center>
 				</div>
     		</div>
   		</div>

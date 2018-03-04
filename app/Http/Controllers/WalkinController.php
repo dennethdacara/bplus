@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 use App\User;
 use App\Walkin;
+use App\Payment;
 use App\Service;
+use App\Commission;
 use App\ServiceType;
 use Auth, Alert, DB;
 use App\ServiceWalkin;
 use App\BillingService;
+use App\CommissionSetting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 
@@ -55,7 +58,6 @@ class WalkinController extends Controller
             return redirect()->back()->withInput(Input::all());
         }
 
-
         $createCustomerWalkin = Walkin::create([
             'firstname' => $request->firstname,
             'lastname' => $request->lastname,
@@ -82,10 +84,14 @@ class WalkinController extends Controller
 
     public function walkinPay($walkin_id) {
 
+        if($walkin_id == null || count($walkin_id) == 0) {
+            return redirect()->route('walk-in.index');
+        }
+
         $getTotalAmountDue = ServiceWalkin::join('services', 'services.id', 'service_walkin.service_id')
             ->join('walkin', 'walkin.id', 'service_walkin.walkin_id')
-            ->select('services.name as service_name', 'services.price as service_price', 
-                'walkin.firstname as firstname', 'walkin.lastname as lastname',
+            ->select('services.name as service_name', 'services.price as service_price',
+                'walkin.firstname as firstname', 'walkin.lastname as lastname', 'walkin.user_id as employee_id',
                 'service_walkin.walkin_id as walkin_id', DB::raw('SUM(services.price) as total'))
             ->where('service_walkin.walkin_id', $walkin_id)
             ->groupBy('service_walkin.walkin_id')
@@ -112,10 +118,23 @@ class WalkinController extends Controller
 
         //INSERT PAYMENT
         /*$addPayment = Payment::create([
-            'customer_id' => $request->customer_id,
+            'customer_id' => 0,
             'total_amount' => $request->totalAmountDue,
             'amount_paid' => $request->amount_paid
         ]);*/
+
+        //INSERT HAIRSTYLIST/EMPLOYEE COMMISSION
+        $getDefaultCommissionPercentage = CommissionSetting::first();
+        $percentage = $getDefaultCommissionPercentage->percentage;
+
+        //Convert our percentage value into a decimal.
+        $percentageInDecimal = $percentage / 100;
+        $totalEmployeeCommission = $percentageInDecimal * $request->amount_paid;
+
+        $insertEmployeeCommission = Commission::create([
+            'employee_id' => $request->employee_id,
+            'commission' => $totalEmployeeCommission
+        ]);
 
         Alert::success('Walk-in Paid!')->autoclose(1000);
         return redirect()->route('walk-in.index');

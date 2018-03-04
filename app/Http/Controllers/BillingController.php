@@ -17,8 +17,7 @@ class BillingController extends Controller
     		->select('users.firstname as customer_firstname', 'employees.firstname as stylist_firstname',
     				'cashiers.firstname as cashier_firstname', 'billing.id as id', 'billing.status as status',
     				'billing.created_at as created_at')
-    		->orderBy('billing.created_at', 'desc')
-    		->paginate(10);
+    		->get();
 
     	$getServices = BillingService::join('services', 'services.id', 'billing_service.service_id')
     		->select('services.name as service_name', 'services.price as service_price', 'billing_service.billing_id as billing_id')

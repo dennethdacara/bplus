@@ -9,7 +9,7 @@
   		<div class="panel panel-default">
     		<div class="panel-body" style="background:#384452;overflow-x:auto;">
     			<div class="col-lg-12">
-    			<table class="table table-stripped">
+    			<table class="table table-stripped" id="customerViewAllReservations-table">
 					<thead>
 						<tr>
 							<th>#</th>
@@ -37,7 +37,7 @@
 								<td width="40%;">
 									@foreach($getServices as $getService)
 										@if($reservation->id == $getService->reservation_id)
-											{{$getService->name}} (P{{$getService->price}}),
+											{{$getService->name}} (&#8369;{{$getService->price}}),
 										@endif
 									@endforeach
 								</td>
@@ -67,7 +67,6 @@
 					</tbody>
     			</table>
 
-    				<center>{{ $reservations->links() }}</center>
 				</div>
     		</div>
   		</div>

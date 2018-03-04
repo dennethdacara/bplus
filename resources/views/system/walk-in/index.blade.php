@@ -8,7 +8,7 @@
   		<div class="panel panel-default">
     		<div class="panel-body" style="background:#384452;overflow-x:auto;">
     			<div class="col-lg-12">
-    			<table class="table table-stripped">
+    			<table class="table table-stripped" id="viewAllWalkin-table">
 					<thead>
 						<tr>
 							<th>#</th>
@@ -31,7 +31,7 @@
 							<td>
 								@foreach($getServices as $getService)
 									@if($walkin->id == $getService->walkin_id)
-										{{$getService->name}} ({{$getService->price}}) ,
+										{{$getService->name}} (&#8369;{{$getService->price}}) ,
 									@endif
 								@endforeach
 							</td>

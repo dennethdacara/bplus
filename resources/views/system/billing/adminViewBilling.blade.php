@@ -9,7 +9,7 @@
   		<div class="panel panel-default">
     		<div class="panel-body" style="background:#384452;overflow-x:auto;">
     			<div class="col-lg-12">
-    			<table class="table table-stripped">
+    			<table class="table table-stripped" id="adminViewAllBilling-table">
 					<thead>
 						<tr>
 							<th>#</th>
@@ -32,7 +32,7 @@
 								<td>
 									@foreach($getServices as $getService)
 										@if($getService->billing_id == $billing->id)
-											{{$getService->service_name}} (P{{$getService->service_price}}),
+											{{$getService->service_name}} (&#8369;{{$getService->service_price}}),
 										@endif
 									@endforeach
 								</td>
@@ -58,7 +58,6 @@
 					</tbody>
     			</table>
 
-    				<center>{{ $billings->links() }}</center>
 				</div>
     		</div>
   		</div>

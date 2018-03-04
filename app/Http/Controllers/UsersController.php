@@ -13,7 +13,6 @@ class UsersController extends Controller
         $this->middleware('auth');
     }
     
-
     public function index()
     {
         $users = User::join('roles', 'roles.id', 'users.role_id')

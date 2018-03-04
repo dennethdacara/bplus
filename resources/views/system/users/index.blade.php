@@ -8,7 +8,7 @@
   		<div class="panel panel-default">
     		<div class="panel-body" style="background:#384452;overflow-x:auto;">
     			<div class="col-lg-12">
-    			<table class="table table-stripped">
+    			<table class="table table-stripped" id="users-table">
 					<thead>
 						<tr>
 							<th>#</th>

@@ -25,6 +25,17 @@ route::group(['middleware' => 'auth'], function() {
 	route::resource('employees', 'EmployeesController'); //EMPLOYEES
 	route::resource('walk-in', 'WalkinController'); //WALKINS
 
+	//commissions
+	route::get('admin/employee-commissions', 'CommissionsController@viewAllCommissions')->name('viewAllCommissions');
+
+	//commission settings
+	route::get('admin/commission/settings', 'CommissionsController@editCommissionSettings')
+	->name('editCommissionSettings');
+
+	route::post('admin/commission/settings', 'CommissionsController@updateCommissionSettings')
+	->name('updateCommissionSettings');
+
+
 	//walkin pay
 	route::get('walk-in/pay/{walkin_id}','WalkinController@walkinPay')->name('walkinPay');
 	route::post('walk-in/pay/store','WalkinController@walkinPayStore')->name('walkinPayStore');
@@ -54,22 +65,16 @@ route::group(['middleware' => 'auth'], function() {
 
 	//billing
 	route::get('admin/billing/all', 'BillingController@adminViewBilling')->name('adminViewBilling');
-	
+
 	//payment
 	route::get('admin/payment/all', 'PaymentController@adminViewAllPayments')->name('adminViewAllPayments');
-
 	route::get('admin/billing/pay/{billing_id}', 'PaymentController@adminPayBilling')->name('adminPayBilling');
+	route::post('admin/billing/pay/store', 'PaymentController@adminPayBillingStore')->name('adminPayBillingStore');
 
-	route::post('admin/billing/pay/store', 'PaymentController@adminPayBillingStore')
-		->name('adminPayBillingStore');
-
-	//CUSTOMERS
-	//Reservations
-	//Home Service
+	//CUSTOMERS //Reservations //Home Service
 	route::get('customer/reservation/all', 'CustomerReservationController@viewAllReservations')->name('customerViewAllReservations');
 
-	route::get('customer/reservation/cancel/{reservation_id}', 'CustomerReservationController@customerCancelReservation')
-	->name('customerCancelReservation');
+	route::get('customer/reservation/cancel/{reservation_id}', 'CustomerReservationController@customerCancelReservation')->name('customerCancelReservation');
 
 	route::get('customer/reservation/home-service/create', 'CustomerReservationController@addHomeServiceReservation')->name('customerAddHomeServiceReservation');
 
@@ -84,8 +89,7 @@ route::group(['middleware' => 'auth'], function() {
 	route::get('customer/payment/all', 'CustomerPaymentsController@customerViewAllPayments')
 		->name('customerViewAllPayments');
 
-	//Employee
-	//reservations
+	//Employee //reservations
 	route::get('employee/reservation/all', 'EmployeeReservationsController@viewAllReservations')->name('employeeViewAllReservations');
 
 	route::get('employee/reservation/approve/{reservation_id}', 'EmployeeReservationsController@employeeApproveReservation')
@@ -94,4 +98,7 @@ route::group(['middleware' => 'auth'], function() {
 	route::get('employee/reservation/cancel/{reservation_id}', 'EmployeeReservationsController@employeeCancelReservation')
 		->name('employeeCancelReservation');
 
+	//commissions
+	route::get('employee/commissions', 'EmployeeCommissionsController@viewAllCommissions')
+		->name('employeeViewAllCommissions');
 });

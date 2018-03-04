@@ -8,7 +8,7 @@
   		<div class="panel panel-default">
     		<div class="panel-body" style="background:#384452;overflow-x:auto;">
     			<div class="col-lg-12">
-    			<table class="table table-stripped">
+    			<table class="table table-stripped" id="adminViewAllServices-table">
 					<thead>
 						<tr>
 							<th>#</th>
@@ -24,7 +24,7 @@
 						<tr>
 							<td>{{$service->id}}</td>
 							<td>{{$service->name}}</td>
-							<td>{{$service->price}}</td>
+							<td>&#8369;{{$service->price}}</td>
 							<td>{{$service->service_type}}</td>
 							<td>{{$service->created_at}}</td>
 							<td>
@@ -44,7 +44,7 @@
 						@endforeach
 					</tbody>
     			</table>
-    				<center>{{ $services->links() }}</center>
+
 				</div>
     		</div>
   		</div>

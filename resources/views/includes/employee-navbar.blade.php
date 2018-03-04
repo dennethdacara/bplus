@@ -12,7 +12,8 @@
         <div class="navbar-collapse collapse navbar-right">
             <ul class="nav navbar-nav">
                 <li><a href="{{ route('employeeDashboard') }}">HOME</a></li>
-                <li><a href="{{ route('employeeViewAllReservations')}}">VIEW RESERVATION</a></li>
+                <li><a href="{{ route('employeeViewAllReservations')}}">VIEW CUSTOMER RESERVATIONS</a></li>
+                <li><a href="{{ route('employeeViewAllCommissions') }}">MY COMMISSIONS</a></li>
 
                 @guest
                 <li><a href="{{ route('register') }}">REGISTER</a></li>

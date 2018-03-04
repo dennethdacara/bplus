@@ -22,7 +22,7 @@ class EmployeeReservationsController extends Controller
 			->select('reservations.*', 'users.firstname as customer_firstname', 'reservations.created_at as date_added', 'users.lastname as customer_lastname', 'users1.firstname as hairstylist', 
 				'users2.firstname as processedByFirstname', 'users2.lastname as processedByLastname')
 			->where('users1.id', Auth::user()->id)
-			->orderBy('reservations.created_at', 'desc')->paginate(8);
+			->get();
 
 		$getServices = ReservationService::join('services', 'services.id', 'reservation_service.service_id')
 			->get();

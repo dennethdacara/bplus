@@ -36,17 +36,24 @@
         
         <div class="navbar-collapse collapse navbar-right">
             <ul class="nav navbar-nav">
-                <li><a href="{{ route('users.index') }}">VIEW USERS</a></li>
+                <li><a href="{{ route('users.index') }}">USERS</a></li>
                 <li><a href="{{ route('walk-in.create') }}">ADD WALK-IN</a></li>
-                 <li><a href="{{ route('walk-in.index') }}">VIEW WALK-IN CUSTOMERS</a></li>
-                <li><a href="{{ route('employees.index') }}">VIEW EMPLOYEES</a></li>
-                <li><a href="{{ route('viewAllReservations')}}">VIEW RESERVATION</a></li>
+                 <li><a href="{{ route('walk-in.index') }}">WALK-IN CUSTOMERS</a></li>
+                <li><a href="{{ route('employees.index') }}">EMPLOYEES</a></li>
+                <li><a href="{{ route('viewAllCommissions') }}">EMPLOYEE COMMISSIONS</a></li>
+                <li><a href="{{ route('viewAllReservations')}}">RESERVATIONS</a></li>
                 <li><a href="{{ route('adminViewBilling')}}">BILLING</a></li>
                 <li><a href="{{ route('adminViewAllPayments')}}">PAYMENTS</a></li>
 
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Settings<b class="caret"></b></a>
                     <ul class="dropdown-menu">
+
+                        <li><a class="" href="{{ route('editCommissionSettings') }}">
+                            <center>Commission Settings</center>
+                            </a>
+                        </li>
+
                         <li><a class="" href="{{ route('service-type.index') }}">
                             <center>Service Type</center>
                             </a>
@@ -55,6 +62,7 @@
                             <center>Services</center>
                             </a>
                         </li>
+
                     </ul>
                 </li>
 

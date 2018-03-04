@@ -22,7 +22,7 @@ class ReservationsController extends Controller
 			->leftjoin('users as users2', 'users2.id', 'reservations.processed_by')
 			->select('reservations.*', 'users.firstname as customer_firstname', 'reservations.created_at as date_added', 'users.lastname as customer_lastname', 'users1.firstname as hairstylist', 
 				'users2.firstname as processedByFirstname', 'users2.lastname as processedByLastname')
-			->orderBy('reservations.created_at', 'desc')->paginate(8);
+			->get();
 
 		$getServices = ReservationService::join('services', 'services.id', 'reservation_service.service_id')
 			->get();
@@ -59,11 +59,13 @@ class ReservationsController extends Controller
     		$checkReservationConflict = Reservation::where('reservation_time', $request->reservation_time)
             ->where('reservation_date', $request->reservation_date)
             ->where('employee_id', $request->employee_id)
+            ->where('status', '!=', 'Cancelled')
             ->first();
 
             $checkReservationConflict1 = Reservation::where('reservation_time', $request->reservation_time)
             	->where('reservation_date', $request->reservation_date)
             	->where('customer_id', $checkCustomer->user_id)
+                ->where('status', '!=', 'Cancelled')
             	->first();
             //check if customer is currently reserved with same date/time
 
@@ -114,12 +116,14 @@ class ReservationsController extends Controller
     		$checkReservationConflict = Reservation::where('reservation_time', $request->reservation_time)
             ->where('reservation_date', '=', $request->reservation_date)
             ->where('employee_id', $request->employee_id)
+            ->where('status', '!=', 'Cancelled')
             ->first();
             //check if employee is currently reserved with same date/time
 
             $checkReservationConflict1 = Reservation::where('reservation_time', $request->reservation_time)
             	->where('reservation_date', $request->reservation_date)
             	->where('customer_id', $createNewUser->customer_id)
+                ->where('status', '!=', 'Cancelled')
             	->first();
             //check if customer is currently reserved with same date/time
 
@@ -180,11 +184,15 @@ class ReservationsController extends Controller
 
     		$checkReservationConflict = Reservation::where('reservation_time', $request->reservation_time)
             ->where('reservation_date', $request->reservation_date)
-            ->where('employee_id', $request->employee_id)->first();
+            ->where('employee_id', $request->employee_id)
+            ->where('status', '!=', 'Cancelled')
+            ->first();
 
             $checkReservationConflict1 = Reservation::where('reservation_time', $request->reservation_time)
             	->where('reservation_date', $request->reservation_date)
-            	->where('customer_id', $checkCustomer->customer_id)->first();
+            	->where('customer_id', $checkCustomer->customer_id)
+                ->where('status', '!=', 'Cancelled')
+                ->first();
             //check if customer is currently reserved with same date/time
 
             if($checkReservationConflict || $checkReservationConflict1) {
@@ -231,12 +239,14 @@ class ReservationsController extends Controller
     		$checkReservationConflict = Reservation::where('reservation_time', $request->reservation_time)
             ->where('reservation_date', '=', $request->reservation_date)
             ->where('employee_id', $request->employee_id)
+            ->where('status', '!=', 'Cancelled')
             ->first();
             //check if employee is currently reserved with same date/time
 
             $checkReservationConflict1 = Reservation::where('reservation_time', $request->reservation_time)
             	->where('reservation_date', $request->reservation_date)
             	->where('customer_id', $createNewUser->id)
+                ->where('status', '!=', 'Cancelled')
             	->first();
             //check if customer is currently reserved with same date/time
 

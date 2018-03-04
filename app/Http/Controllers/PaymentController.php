@@ -3,8 +3,10 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Billing;
 use App\Payment;
+use App\Commission;
 use Auth, DB, Alert;
 use App\BillingService;
+use App\CommissionSetting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 
@@ -15,7 +17,7 @@ class PaymentController extends Controller
 			->select('payments.total_amount as total_amount', 'payments.amount_paid as amount_paid',
 					'customers.firstname as customer_firstname', 'customers.lastname as customer_lastname',
 					'payments.created_at as created_at', 'payments.id as id')
-			->orderBy('payments.created_at', 'desc')->paginate(10);
+			->get();
 
 		return view ('system/payment/adminViewAllPayments', compact('payments'));
 	}
@@ -30,12 +32,12 @@ class PaymentController extends Controller
     		->join('users as employees', 'employees.id', 'billing.employee_id')
     		->join('users as customers', 'customers.id', 'billing.customer_id')
     		->select('services.name as service_name', 'services.price as price', 'billing.id as billing_id',
-    				'billing_service.created_at as created_at', 
+    				'billing_service.created_at as created_at', 'employees.id as employee_id',
     				'employees.firstname as hairstylist_firstname', 'employees.lastname as hairstylist_lastname',
     				'customers.id as customer_id', 'services.id as id',
     				'customers.firstname as customer_firstname', 'customers.lastname as customer_lastname')
     		->where('billing_service.billing_id', $billing_id)
-    		->paginate(10);
+    		->get();
 
     	return view ('system/payment/adminPayBilling', 
     		compact('getTotalAmountDue', 'getAllServices'));
@@ -64,6 +66,19 @@ class PaymentController extends Controller
     	$updateBillingStatus = Billing::find($request->billing_id);
     	$updateBillingStatus->status = 'Paid';
     	$updateBillingStatus->save();
+
+        //INSERT HAIRSTYLIST/EMPLOYEE COMMISSION
+        $getDefaultCommissionPercentage = CommissionSetting::first();
+        $percentage = $getDefaultCommissionPercentage->percentage;
+
+        //Convert our percentage value into a decimal.
+        $percentageInDecimal = $percentage / 100;
+        $totalEmployeeCommission = $percentageInDecimal * $request->amount_paid;
+
+        $insertEmployeeCommission = Commission::create([
+            'employee_id' => $request->employee_id,
+            'commission' => $totalEmployeeCommission
+        ]);
 
     	Alert::success('Payment Successful!')->autoclose(1000);
     	return redirect()->route('adminViewBilling');
