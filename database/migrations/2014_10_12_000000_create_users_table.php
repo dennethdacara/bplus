@@ -24,7 +24,7 @@ class CreateUsersTable extends Migration
             $table->string('contact_no');
             $table->string('address');
             $table->string('gender');
-            $table->string('expertise')->nullable(); // for employees
+            $table->string('expertise_id')->nullable(); // for employees
             $table->rememberToken();
             $table->timestamps();
         });

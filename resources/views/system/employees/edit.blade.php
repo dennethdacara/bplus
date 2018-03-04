@@ -118,15 +118,15 @@
 
 							<div class="col-lg-4">
 								<br><label>Expertise:</label>
-								<select name="expertise" class="form-control">
-									<option value="haircut" @if($employee->expertise == 'haircut') selected @endif>Haircut</option>
-									<option value="manicure" @if($employee->expertise == 'manicure') selected @endif>Manicure</option>
-									<option value="all around" @if($employee->expertise == 'all around') selected @endif>All Around</option>
+								<select name="expertise_id" class="form-control">
+									@foreach($expertise as $expertise1)
+									<option value="{{$expertise1->id}}" @if($employee->expertise_id == $expertise1->id) selected @endif>{{$expertise1->name}} | Service Fee: {{$expertise1->service_fee}}</option>
+									@endforeach
 				    			</select>
 
-				    			@if ($errors->has('expertise'))
+				    			@if ($errors->has('expertise_id'))
                                     <span class="help-info">
-                                        <strong>{{ $errors->first('expertise') }}</strong>
+                                        <strong>{{ $errors->first('expertise_id') }}</strong>
                                     </span>
                                 @endif
 							</div>

@@ -78,7 +78,7 @@
 								@foreach($hairstylists as $hairstylist)
 									<option value="{{$hairstylist->id}}"
 										@if($hairstylist->id == $walkin->user_id) selected @endif
-										>{{$hairstylist->firstname}}</option>
+										>{{$hairstylist->firstname}} | {{$hairstylist->expertise}}</option>
 								@endforeach
 							</select>
 

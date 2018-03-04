@@ -36,7 +36,7 @@
 										@endif
 									@endforeach
 								</td>
-								<td>{{$billing->cashier_firstname}}</td>
+								<td>{{$billing->cashier_firstname}} {{$billing->cashier_lastname}}</td>
 								<td>
 									@foreach($getServiceTotal as $getServiceTotal1)
 										@if($getServiceTotal1->billing_id == $billing->id)

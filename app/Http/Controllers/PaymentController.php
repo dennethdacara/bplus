@@ -30,12 +30,13 @@ class PaymentController extends Controller
     	$getAllServices = BillingService::join('services', 'services.id', 'billing_service.service_id')
     		->join('billing', 'billing.id', 'billing_service.billing_id')
     		->join('users as employees', 'employees.id', 'billing.employee_id')
+            ->join('expertise', 'employees.expertise_id', 'expertise.id')
     		->join('users as customers', 'customers.id', 'billing.customer_id')
     		->select('services.name as service_name', 'services.price as price', 'billing.id as billing_id',
     				'billing_service.created_at as created_at', 'employees.id as employee_id',
     				'employees.firstname as hairstylist_firstname', 'employees.lastname as hairstylist_lastname',
-    				'customers.id as customer_id', 'services.id as id',
-    				'customers.firstname as customer_firstname', 'customers.lastname as customer_lastname')
+    				'customers.id as customer_id', 'services.id as id', 'customers.firstname as customer_firstname', 'customers.lastname as customer_lastname', 'expertise.service_fee as service_fee',
+                    'expertise.name as expertise')
     		->where('billing_service.billing_id', $billing_id)
     		->get();
 

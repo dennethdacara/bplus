@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Auth, Alert;
 use App\User;
+use App\Expertise;
 
 class EmployeesController extends Controller
 {
@@ -10,7 +11,8 @@ class EmployeesController extends Controller
     public function index()
     {
         $employees = User::join('roles', 'roles.id', 'users.role_id')
-            ->select('users.*', 'roles.name as role_name')
+            ->join('expertise', 'expertise.id', 'users.expertise_id')
+            ->select('users.*', 'roles.name as role_name', 'expertise.name as expertise')
             ->where('users.role_id', User::IS_EMPLOYEE)
             ->get();
 
@@ -19,7 +21,8 @@ class EmployeesController extends Controller
 
     public function create()
     {
-        return view ('system/employees/create');
+        $expertise = Expertise::all();
+        return view ('system/employees/create', compact('expertise'));
     }
 
     public function store(Request $request)
@@ -27,7 +30,7 @@ class EmployeesController extends Controller
 
         $this->validate($request, [
             'firstname' => 'required', 'lastname' => 'required', 'email' => 'required|email',
-            'contact_no' => 'required', 'address' => 'required', 'expertise' => 'required'
+            'contact_no' => 'required', 'address' => 'required', 'expertise_id' => 'required'
         ]);
 
         //check if employee already exists
@@ -51,7 +54,7 @@ class EmployeesController extends Controller
             'gender' => $request->gender,
             'address' => $request->address,
             'role_id' => 3,
-            'expertise' => $request->expertise
+            'expertise_id' => $request->expertise_id
         ]);
 
         Alert::success('Employee has been Added!')->autoclose(1000);
@@ -66,14 +69,15 @@ class EmployeesController extends Controller
     public function edit($id)
     {
         $employee = User::findOrFail($id);
-        return view ('system/employees/edit', compact('employee'));
+        $expertise = Expertise::all();
+        return view ('system/employees/edit', compact('employee', 'expertise'));
     }
 
     public function update(Request $request, $id)
     {
         $this->validate($request, [
             'firstname' => 'required', 'lastname' => 'required', 'email' => 'required|email',
-            'contact_no' => 'required', 'address' => 'required', 'expertise' => 'required',
+            'contact_no' => 'required', 'address' => 'required', 'expertise_id' => 'required',
             'gender' => 'required'
         ]);
 
@@ -86,7 +90,7 @@ class EmployeesController extends Controller
         $employee->contact_no = $request->contact_no;
         $employee->address = $request->address;
         $employee->gender = $request->gender;
-        $employee->expertise = $request->expertise;
+        $employee->expertise_id = $request->expertise_id;
         $employee->save();
 
         Alert::success('Employee has been updated!')->autoclose(1000);

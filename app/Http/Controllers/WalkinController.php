@@ -31,7 +31,11 @@ class WalkinController extends Controller
 
     public function create()
     {
-        $hairstylists = User::where('role_id', User::IS_EMPLOYEE)->get();
+        $hairstylists = User::join('expertise', 'expertise.id', 'users.expertise_id')
+            ->select('users.firstname as firstname', 'users.lastname as lastname', 'expertise.name as expertise',
+                    'users.id as id')
+            ->where('role_id', User::IS_EMPLOYEE)->get();
+
         $service_types = ServiceType::all();
         $services = Service::all();
         return view ('system/walk-in/create', compact('hairstylists', 'service_types', 'services'));
@@ -39,7 +43,6 @@ class WalkinController extends Controller
 
     public function store(Request $request)
     {
-        //return $request->all();
         $current_day = date('Y-m-d');
 
         $this->validate($request, [
@@ -90,11 +93,14 @@ class WalkinController extends Controller
 
         $getTotalAmountDue = ServiceWalkin::join('services', 'services.id', 'service_walkin.service_id')
             ->join('walkin', 'walkin.id', 'service_walkin.walkin_id')
+            ->join('users as employees', 'employees.id', 'walkin.user_id')
+            ->join('expertise', 'expertise.id', 'employees.expertise_id')
             ->select('services.name as service_name', 'services.price as service_price',
                 'walkin.firstname as firstname', 'walkin.lastname as lastname', 'walkin.user_id as employee_id',
-                'service_walkin.walkin_id as walkin_id', DB::raw('SUM(services.price) as total'))
+                'service_walkin.walkin_id as walkin_id', DB::raw('SUM(services.price) as total'), 
+                'employees.firstname as employee_firstname', 'employees.lastname as employee_lastname',
+                'expertise.name as expertise', 'expertise.service_fee')
             ->where('service_walkin.walkin_id', $walkin_id)
-            ->groupBy('service_walkin.walkin_id')
             ->get();
 
         return view('system/payment/adminPayWalkin', compact('getTotalAmountDue'));
@@ -152,7 +158,10 @@ class WalkinController extends Controller
             ->where('walkin.id', $id)
             ->first();
 
-        $hairstylists = User::where('role_id', User::IS_EMPLOYEE)->get();
+        $hairstylists = User::join('expertise', 'expertise.id', 'users.expertise_id')
+            ->select('users.firstname', 'users.lastname', 'users.id', 'expertise.name as expertise')
+            ->where('role_id', User::IS_EMPLOYEE)->get();
+
         $services = Service::all();
         return view ('system/walk-in/edit', compact('walkin', 'hairstylists', 'services', 'serviceWalkinPivot'));
     }

@@ -53,7 +53,10 @@
                             <center>Commission Settings</center>
                             </a>
                         </li>
-
+                        <li><a class="" href="{{ route('services.index') }}">
+                            <center>Expertise</center>
+                            </a>
+                        </li>
                         <li><a class="" href="{{ route('service-type.index') }}">
                             <center>Service Type</center>
                             </a>

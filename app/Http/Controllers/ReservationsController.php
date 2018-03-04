@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 use App\Billing, App\BillingService;
 use App\Reservation;
 use App\ServiceType;
+use App\Expertise;
 use Auth, DB, Alert;
 use App\User, App\Service;
 use App\ReservationService;
@@ -34,7 +35,10 @@ class ReservationsController extends Controller
     public function addHomeServiceReservation() {
     	$service_types = ServiceType::all();
     	$services = Service::all();
-    	$employees = User::where('role_id', User::IS_EMPLOYEE)->get();
+    	$employees = User::join('expertise', 'expertise.id', 'users.expertise_id')
+            ->select('users.id', 'users.firstname', 'users.lastname', 'expertise.name as expertise')
+            ->where('role_id', User::IS_EMPLOYEE)->get();
+
     	return view ('system/reservation/home-service/addHomeServiceReservation', 
     		compact('service_types', 'services', 'employees'));
     }
@@ -161,7 +165,10 @@ class ReservationsController extends Controller
     public function addOnSpaReservation() {
     	$service_types = ServiceType::all();
     	$services = Service::all();
-    	$employees = User::where('role_id', User::IS_EMPLOYEE)->get();
+    	$employees = User::join('expertise', 'expertise.id', 'users.expertise_id')
+            ->select('users.id', 'users.firstname', 'users.lastname', 'expertise.name as expertise')
+            ->where('role_id', User::IS_EMPLOYEE)->get();
+            
     	return view ('system/reservation/on-spa/addOnSpaReservation', 
     		compact('service_types', 'services', 'employees'));
     }
@@ -196,7 +203,7 @@ class ReservationsController extends Controller
             //check if customer is currently reserved with same date/time
 
             if($checkReservationConflict || $checkReservationConflict1) {
-	            Alert::error('On Spa Reservation Has Conflict!')->autoclose(1000);
+	            Alert::error('On Salon Reservation Has Conflict!')->autoclose(1000);
 	            return redirect()->back()->withInput(Input::all());
 	        } else { //IF THERE IS NO CONFLICT
 	        	$createHomeServiceReservation = Reservation::create([
@@ -204,7 +211,7 @@ class ReservationsController extends Controller
 	        		'reservation_date' => $request->reservation_date,
 	        		'reservation_time' => $request->reservation_time,
 	        		'employee_id' => $request->employee_id,
-	        		'type' => 'On Spa',
+	        		'type' => 'On Salon',
 	        		'address' => $request->address,
 	        		'status' => 'Pending'
 	        	]);
@@ -218,7 +225,7 @@ class ReservationsController extends Controller
 		            $i++;
 		        }
 
-		        Alert::success('On Spa Reservation Successful!')->autoclose(1000);
+		        Alert::success('On Salon Reservation Successful!')->autoclose(1000);
     			return redirect()->back();
 	        }
     	} else { //if customer doesnt exist
@@ -251,7 +258,7 @@ class ReservationsController extends Controller
             //check if customer is currently reserved with same date/time
 
 	        if($checkReservationConflict || $checkReservationConflict1) {
-	            Alert::error('On Spa Reservation Has Conflict!')->autoclose(1000);
+	            Alert::error('On Salon Reservation Has Conflict!')->autoclose(1000);
 	            return redirect()->back()->withInput(Input::all());
 	        } else { //IF THERE IS NO CONFLICT
 	        	$createHomeServiceReservation = Reservation::create([
@@ -259,7 +266,7 @@ class ReservationsController extends Controller
 	        		'reservation_date' => $request->reservation_date,
 	        		'reservation_time' => $request->reservation_time,
 	        		'employee_id' => $request->employee_id,
-	        		'type' => 'On Spa',
+	        		'type' => 'On Salon',
 	        		'address' => $request->address,
 	        		'status' => 'Pending'
 	        	]);
@@ -273,7 +280,7 @@ class ReservationsController extends Controller
 		            $i++;
 		        }
 
-		        Alert::success('On Spa Reservation Successful!')->autoclose(1000);
+		        Alert::success('On Salon Reservation Successful!')->autoclose(1000);
     			return redirect()->back();
     		}
     	}

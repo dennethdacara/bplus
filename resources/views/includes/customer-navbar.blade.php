@@ -12,7 +12,7 @@
         <div class="navbar-collapse collapse navbar-right">
             <ul class="nav navbar-nav">
                 <li><a href="{{ route('customerDashboard') }}">HOME</a></li>
-                <li><a href="{{ route('customerAddOnSpaReservation') }}">ON SPA RESERVATION</a></li>
+                <li><a href="{{ route('customerAddOnSpaReservation') }}">ON SALON RESERVATION</a></li>
                 <li><a href="{{ route('customerAddHomeServiceReservation') }}">HOME SERVICE RESERVATION</a></li>
                 <li><a href="{{ route('customerViewAllReservations') }}">MY RESERVATIONS</a></li>
                 <li><a href="{{ route('customerViewAllPayments') }}">MY PAYMENTS</a></li>

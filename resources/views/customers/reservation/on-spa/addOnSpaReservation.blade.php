@@ -15,7 +15,7 @@
 	<div class="container mtb">
 	 	<div class="row">
 	 		<div class="col-lg-8">
-	 			<h4>On Spa Reservation</h4>
+	 			<h4>On Salon Reservation</h4>
 	 			<div class="hline"></div>
 	 			<form role="form" method="POST" action="{{ route('customerStoreOnSpaReservation') }}">
                    	{{ csrf_field() }}

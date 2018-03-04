@@ -116,15 +116,15 @@
 
 							<div class="col-lg-4">
 								<br><label>Expertise:</label>
-								<select name="expertise" class="form-control">
-									<option value="haircut">Haircut</option>
-									<option value="manicure">Manicure</option>
-									<option value="all around">All Around</option>
+								<select name="expertise_id" class="form-control">
+									@foreach($expertise as $expertise1)
+										<option value="{{$expertise1->id}}">{{$expertise1->name}} | Service Fee: {{$expertise1->service_fee}}</option>
+									@endforeach
 				    			</select>
 
-				    			@if ($errors->has('expertise'))
+				    			@if ($errors->has('expertise_id'))
                                     <span class="help-info">
-                                        <strong>{{ $errors->first('expertise') }}</strong>
+                                        <strong>{{ $errors->first('expertise_id') }}</strong>
                                     </span>
                                 @endif
 							</div>

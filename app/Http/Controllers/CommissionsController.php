@@ -11,7 +11,8 @@ class CommissionsController extends Controller
 
     public function viewAllCommissions() {
         $employeeCommissions = Commission::join('users as employees', 'employees.id', 'commissions.employee_id')
-        ->select('commissions.id', 'commissions.commission', 'commissions.created_at', 'employees.firstname', 'employees.lastname', 'employees.expertise')
+        ->join('expertise', 'expertise.id', 'employees.expertise_id')
+        ->select('commissions.id', 'commissions.commission', 'commissions.created_at', 'employees.firstname', 'employees.lastname', 'expertise.name as expertise')
         ->get();
 
         return view ('system/commissions/viewAllCommissions', 

@@ -25,9 +25,13 @@
 
 					<div class="col-lg-12">
 						<br>
-						<h3>Total Amount Due: P{{$getTotalAmountDue[0]->total}}</h3>
+						<h3>HairStylist: {{$getTotalAmountDue[0]->employee_firstname}} {{$getTotalAmountDue[0]->employee_lastname}}</h3>
+						<h3>Amount Due: P{{$getTotalAmountDue[0]->total}}</h3>
+						<h3>Service Fee: P{{$getTotalAmountDue[0]->service_fee}}</h3>
+						
+						<h3>Total Amount Due: <span style="color:red;">P{{$getTotalAmountDue[0]->total + $getTotalAmountDue[0]->service_fee}}</span></h3>
 
-						<input type="hidden" name="totalAmountDue" value="{{$getTotalAmountDue[0]->total}}">
+						<input type="hidden" name="totalAmountDue" value="{{$getTotalAmountDue[0]->total + $getTotalAmountDue[0]->service_fee}}">
 						<input type="hidden" name="employee_id" value="{{$getTotalAmountDue[0]->employee_id}}">
 
 					</div>

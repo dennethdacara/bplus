@@ -39,7 +39,9 @@ class CustomerReservationController extends Controller
     public function addHomeServiceReservation() {
     	$service_types = ServiceType::all();
     	$services = Service::all();
-    	$employees = User::where('role_id', User::IS_EMPLOYEE)->get();
+    	$employees = User::join('expertise', 'expertise.id', 'users.expertise_id')
+            ->select('users.firstname', 'users.lastname', 'users.id', 'expertise.name as expertise')
+            ->where('role_id', User::IS_EMPLOYEE)->get();
 
     	return view ('customers/reservation/home-service/addHomeServiceReservation', 
     		compact('service_types', 'services', 'employees'));
@@ -95,7 +97,9 @@ class CustomerReservationController extends Controller
     public function addOnSpaReservation() {
     	$service_types = ServiceType::all();
     	$services = Service::all();
-    	$employees = User::where('role_id', User::IS_EMPLOYEE)->get();
+    	$employees = User::join('expertise', 'expertise.id', 'users.expertise_id')
+            ->select('users.firstname', 'users.lastname', 'users.id', 'expertise.name as expertise')
+            ->where('role_id', User::IS_EMPLOYEE)->get();
 
     	return view ('customers/reservation/on-spa/addOnSpaReservation',
     		compact('service_types', 'services', 'employees'));
@@ -118,7 +122,7 @@ class CustomerReservationController extends Controller
         //check if customer is currently reserved with same date/time
 
        	if($checkReservationConflict || $checkReservationConflict1) {
-	            Alert::error('On Spa Reservation Has Conflict!')->autoclose(1000);
+	            Alert::error('On Salon Reservation Has Conflict!')->autoclose(1000);
 	            return redirect()->back()->withInput(Input::all());
 	        } else { //IF THERE IS NO CONFLICT
 	        	$createHomeServiceReservation = Reservation::create([
@@ -126,7 +130,7 @@ class CustomerReservationController extends Controller
 	        		'reservation_date' => $request->reservation_date,
 	        		'reservation_time' => $request->reservation_time,
 	        		'employee_id' => $request->employee_id,
-	        		'type' => 'On Spa',
+	        		'type' => 'On Salon',
 	        		'address' => $request->address,
 	        		'status' => 'Pending'
 	        	]);
@@ -140,7 +144,7 @@ class CustomerReservationController extends Controller
 		            $i++;
 		        }
 
-		        Alert::success('Customer On Spa Reservation Successful!')->autoclose(1000);
+		        Alert::success('Customer On Salon Reservation Successful!')->autoclose(1000);
     			return redirect()->back();
 	        }
     }
