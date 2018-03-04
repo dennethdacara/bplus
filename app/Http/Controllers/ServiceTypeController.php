@@ -6,6 +6,10 @@ use App\ServiceType;
 
 class ServiceTypeController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
 
     public function index()
     {
@@ -13,7 +17,6 @@ class ServiceTypeController extends Controller
         return view ('system/service-type/index', compact('serviceTypes'));
     }
 
- 
     public function create()
     {
         return view ('system/service-type/create');

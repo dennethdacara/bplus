@@ -10,6 +10,11 @@ use Illuminate\Support\Facades\Input;
 
 class CustomerReservationController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     public function viewAllReservations() {
         $reservations = Reservation::join('users', 'users.id', 'reservations.customer_id')
             ->join('users as users1', 'users1.id', 'reservations.employee_id')

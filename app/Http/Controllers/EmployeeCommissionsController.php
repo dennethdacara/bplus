@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 
 class EmployeeCommissionsController extends Controller
 {
+	public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     public function viewAllCommissions() {
         $myCommissions = Commission::join('users as employees', 'employees.id', 'commissions.employee_id')
         ->select('commissions.id', 'commissions.commission', 'commissions.created_at', 'employees.firstname', 'employees.lastname', 'employees.expertise')

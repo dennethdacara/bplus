@@ -25,7 +25,7 @@
 
 					<div class="col-lg-12">
 						<br>
-						<h3>HairStylist: {{$getTotalAmountDue[0]->employee_firstname}} {{$getTotalAmountDue[0]->employee_lastname}}</h3>
+						<h3>HairStylist: {{$getTotalAmountDue[0]->employee_firstname}} {{$getTotalAmountDue[0]->employee_lastname}} | Expertise: {{$getTotalAmountDue[0]->expertise}}</h3>
 						<h3>Amount Due: P{{$getTotalAmountDue[0]->total}}</h3>
 						<h3>Service Fee: P{{$getTotalAmountDue[0]->service_fee}}</h3>
 						

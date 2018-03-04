@@ -10,6 +10,11 @@ use App\BillingService;
 
 class CustomerPaymentsController extends Controller
 {
+	public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     public function customerViewAllPayments() {
     	$payments = Payment::join('users as customers', 'customers.id', 'payments.customer_id')
 			->select('payments.total_amount as total_amount', 'payments.amount_paid as amount_paid',
