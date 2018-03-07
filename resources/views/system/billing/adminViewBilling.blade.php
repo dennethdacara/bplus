@@ -7,7 +7,7 @@
   		<h2>View All Billing</h2> 
 
   		<div class="panel panel-default">
-    		<div class="panel-body" style="background:#384452;overflow-x:auto;">
+    		<div class="panel-body" style="background:#999999c7;overflow-x:auto;">
     			<div class="col-lg-12">
     			<table class="table table-stripped" id="adminViewAllBilling-table">
 					<thead>
@@ -40,7 +40,7 @@
 								<td>
 									@foreach($getServiceTotal as $getServiceTotal1)
 										@if($getServiceTotal1->billing_id == $billing->id)
-											P{{$getServiceTotal1->total}}
+											&#8369;{{$getServiceTotal1->total}}
 										@endif
 									@endforeach
 								</td>

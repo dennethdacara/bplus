@@ -157,18 +157,21 @@
 						@endphp
 
 						<br><label>Services :</label><br>
+						<ul class="checkboxes1" style="columns: 4 8em;">
                         @foreach($services as $service)
-                        	<label class="checkbox-inline">
+                        	<label>
                         		<input type="checkbox" name="service_id[]" value="{{$service->id}}" 
                         		{{in_array($service->id, $service_pivot) ? 'checked' : ''}} />
-                        		{{$service->name}}
+                        		{{$service->name}} (&#8369;{{$service->price}})
                         	</label>
-                        @endforeach 
+                        @endforeach
+                    	</ul>
 					</div>
 
 					<div class="row col-lg-12">
 						<br>
 			  			<button type="submit" class="btn btn-theme">Update</button>
+			  			<a href="{{ route('walk-in.index') }}" class="btn btn-theme">Back</a>
 			  		</div>
 					
 				</form>

@@ -1,18 +1,14 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\User;
-use App\Walkin;
-use App\Payment;
-use App\Service;
-use App\Commission;
-use App\ServiceType;
+use App\Vat;
 use Auth, Alert, DB;
-use App\ServiceWalkin;
-use App\BillingService;
-use App\CommissionSetting;
 use Illuminate\Http\Request;
+use App\CommissionEmployeeServices;
 use Illuminate\Support\Facades\Input;
+use App\BillingService, App\CommissionSetting;
+use App\User, App\Walkin, App\Payment, App\Service;
+use App\Commission, App\ServiceType, App\ServiceWalkin;
 
 class WalkinController extends Controller
 {
@@ -58,6 +54,7 @@ class WalkinController extends Controller
         $checkExistingWalkin = Walkin::where('user_id', $request->user_id) //employee_id
             ->where('walkin_time', $request->walkin_time)
             ->where(DB::raw("(DATE_FORMAT(created_at,'%Y-%m-%d'))"), '=', $current_day)
+            ->where('status', 'Pending')
             ->first();
 
         if($checkExistingWalkin) {
@@ -107,17 +104,29 @@ class WalkinController extends Controller
             ->where('service_walkin.walkin_id', $walkin_id)
             ->get();
 
-        return view('system/payment/adminPayWalkin', compact('getTotalAmountDue'));
+        //display list of availed walkin services
+        $getAllWalkinServices = ServiceWalkin::join('services', 'services.id', 'service_walkin.service_id')
+            ->join('walkin', 'walkin.id', 'service_walkin.walkin_id')
+            ->join('users as employees', 'employees.id', 'walkin.user_id')
+            ->select('services.name as service_name', 'services.price as price', 'service_walkin.created_at')
+            ->where('service_walkin.walkin_id', $walkin_id)
+            ->get();
+
+        //get default Vat
+        $vat = Vat::first();
+
+        return view('system/payment/adminPayWalkin', compact('getTotalAmountDue', 'getAllWalkinServices', 'vat'));
     }
 
     public function walkinPayStore(Request $request) {
+
         $this->validate($request, [
             'amount_paid' => 'required'
         ]);
 
-        //IF NOT EXACT AMOUNT
-        if($request->amount_paid != $request->totalAmountDue) {
-            Alert::error('Please enter exact amount!')->autoclose(1000);
+        //VALIDATE PAYMENT
+        if($request->amount_paid < $request->totalAmountDue) { //if amount paid < total amount due
+            Alert::error('Invalid Amount! Please pay the total amount due.')->autoclose(1000);
             return redirect()->back()->withInput(Input::all());
         }
 
@@ -146,8 +155,36 @@ class WalkinController extends Controller
             'commission' => $totalEmployeeCommission
         ]);
 
-        Alert::success('Walk-in Paid!')->autoclose(1000);
-        return redirect()->route('walk-in.index');
+        //display list of availed walkin services
+        $getAllWalkinServices = ServiceWalkin::join('services', 'services.id', 'service_walkin.service_id')
+            ->join('walkin', 'walkin.id', 'service_walkin.walkin_id')
+            ->join('users as employees', 'employees.id', 'walkin.user_id')
+            ->select('services.id as service_id', 'services.name as service_name', 'services.price as price', 'service_walkin.created_at')
+            ->where('service_walkin.walkin_id', $request->walkin_id)
+            ->get();
+
+        $employee_id1 = $request->employee_id; // for commissions pivot
+        $commission_id = $insertEmployeeCommission->id; // for commissions pivot
+
+        foreach($getAllWalkinServices as $getAllWalkinService){
+            $service_id[] = $getAllWalkinService->service_id;
+        }
+
+        for($i=0;$i<count($service_id);$i++){
+            CommissionEmployeeServices::create([
+                'commission_id' => $commission_id, 
+                'employee_id' => $employee_id1, 
+                'service_id' => $service_id[$i]
+            ]);
+        }
+
+        //IF AMOUNT PAID IS LESSER THAN TOTAL AMOUNT TO BE PAID (MAY SUKLI)
+        if($request->amount_paid >= $request->totalAmountDue) {
+            $change = ($request->amount_paid - $request->totalAmountDue);
+            Alert::success('Payment Successful! <br> Total Amount:&#8369;'.$request->totalAmountDue.'<br> Amount Paid:&#8369;'.$request->amount_paid.'<br>Change:&#8369;'.$change.'')->html()->persistent("OK");
+            return redirect()->route('walk-in.index');
+        }
+
     }
 
     public function show($id)

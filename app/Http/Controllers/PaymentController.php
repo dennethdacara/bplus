@@ -1,22 +1,20 @@
 <?php
 namespace App\Http\Controllers;
-use App\User;
-use App\Billing;
-use App\Payment;
-use App\Commission;
+use App\Vat;
 use Auth, DB, Alert;
-use App\BillingService;
-use App\CommissionSetting;
 use Illuminate\Http\Request;
+use App\CommissionEmployeeServices;
 use Illuminate\Support\Facades\Input;
+use App\Commission, App\BillingService;
+use App\User, App\Billing, App\Payment, App\CommissionSetting;
 
 class PaymentController extends Controller
 {
 	public function adminViewAllPayments() {
 		$payments = Payment::join('users as customers', 'customers.id', 'payments.customer_id')
-			->select('payments.total_amount as total_amount', 'payments.amount_paid as amount_paid',
+			->select('payments.total_amount', 'payments.amount_paid', 'payments.change',
 					'customers.firstname as customer_firstname', 'customers.lastname as customer_lastname',
-					'payments.created_at as created_at', 'payments.id as id')
+					'payments.created_at', 'payments.id')
 			->get();
 
 		return view ('system/payment/adminViewAllPayments', compact('payments'));
@@ -40,8 +38,10 @@ class PaymentController extends Controller
     		->where('billing_service.billing_id', $billing_id)
     		->get();
 
+        $vat = Vat::first();
+
     	return view ('system/payment/adminPayBilling', 
-    		compact('getTotalAmountDue', 'getAllServices'));
+    		compact('getTotalAmountDue', 'getAllServices', 'vat'));
     }
 
     public function adminPayBillingStore(Request $request) {
@@ -50,17 +50,23 @@ class PaymentController extends Controller
     		'amount_paid' => 'required'
     	]);
 
-    	//IF NOT EXACT AMOUNT
-    	if($request->amount_paid != $request->totalAmountDue) {
-    		Alert::error('Please enter exact amount!')->autoclose(1000);
-    		return redirect()->back()->withInput(Input::all());
-    	}
+        //VALIDATE PAYMENT
+        if($request->amount_paid < $request->totalAmountDue) { //if amount paid < total amount due
+            Alert::error('Invalid Amount! Please pay the total amount due.')->autoclose(1000);
+            return redirect()->back()->withInput(Input::all());
+        }
+
+        //IF AMOUNT PAID IS LESSER THAN TOTAL AMOUNT TO BE PAID (MAY SUKLI)
+        if($request->amount_paid >= $request->totalAmountDue) {
+            $change = ($request->amount_paid - $request->totalAmountDue);
+        }
 
     	//INSERT PAYMENT
     	$addPayment = Payment::create([
     		'customer_id' => $request->customer_id,
     		'total_amount' => $request->totalAmountDue,
-    		'amount_paid' => $request->amount_paid
+    		'amount_paid' => $request->amount_paid,
+            'change' => $change
     	]);
 
     	//UPDATE BILLING STATUS TO PAID
@@ -81,8 +87,33 @@ class PaymentController extends Controller
             'commission' => $totalEmployeeCommission
         ]);
 
-    	Alert::success('Payment Successful!')->autoclose(1000);
-    	return redirect()->route('adminViewBilling');
+        $getAllServices = BillingService::join('services', 'services.id', 'billing_service.service_id')
+            ->join('billing', 'billing.id', 'billing_service.billing_id')
+            ->join('users as employees', 'employees.id', 'billing.employee_id')
+            ->join('expertise', 'employees.expertise_id', 'expertise.id')
+            ->join('users as customers', 'customers.id', 'billing.customer_id')
+            ->select('services.id as service_id', 'services.name as service_name', 
+                    'services.price as price', 'billing.id as billing_id')
+            ->where('billing_service.billing_id', $request->billing_id)
+            ->get();
+
+        $employee_id1 = $request->employee_id; // for commissions pivot
+        $commission_id = $insertEmployeeCommission->id; // for commissions pivot
+
+        foreach($getAllServices as $getAllServices1){
+            $service_id[] = $getAllServices1->service_id;
+        }
+
+        for($i=0;$i<count($service_id);$i++){
+            CommissionEmployeeServices::create([
+                'commission_id' => $commission_id, 
+                'employee_id' => $employee_id1, 
+                'service_id' => $service_id[$i]
+            ]);
+        }
+
+        Alert::success('Payment Successful! <br> Total Amount:&#8369;'.$request->totalAmountDue.'<br> Amount Paid:&#8369;'.$request->amount_paid.'<br>Change:&#8369;'.$change.'')->html()->persistent("OK");
+            return redirect()->route('adminViewBilling');
 
     }
 }

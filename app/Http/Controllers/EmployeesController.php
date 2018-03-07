@@ -1,9 +1,10 @@
 <?php
 namespace App\Http\Controllers;
-use Illuminate\Http\Request;
-use Auth, Alert;
 use App\User;
+use App\Salary;
+use Auth, Alert;
 use App\Expertise;
+use Illuminate\Http\Request;
 
 class EmployeesController extends Controller
 {
@@ -34,7 +35,8 @@ class EmployeesController extends Controller
 
         $this->validate($request, [
             'firstname' => 'required', 'lastname' => 'required', 'email' => 'required|email',
-            'contact_no' => 'required', 'address' => 'required', 'expertise_id' => 'required'
+            'contact_no' => 'required', 'address' => 'required', 'expertise_id' => 'required',
+            'employee_salary' => 'required'
         ]);
 
         //check if employee already exists
@@ -61,6 +63,11 @@ class EmployeesController extends Controller
             'expertise_id' => $request->expertise_id
         ]);
 
+        $createEmployeeSalary = Salary::create([
+            'employee_id' => $createEmployee->id,
+            'employee_salary' => $request->employee_salary
+        ]);
+
         Alert::success('Employee has been Added!')->autoclose(1000);
         return redirect()->route('employees.index');
     }
@@ -72,7 +79,11 @@ class EmployeesController extends Controller
 
     public function edit($id)
     {
-        $employee = User::findOrFail($id);
+        $employee = User::join('salary', 'salary.employee_id', 'users.id')
+            ->select('users.id', 'users.*', 'salary.employee_salary')
+            ->where('users.id', $id)
+            ->first();
+
         $expertise = Expertise::all();
         return view ('system/employees/edit', compact('employee', 'expertise'));
     }
@@ -97,6 +108,10 @@ class EmployeesController extends Controller
         $employee->expertise_id = $request->expertise_id;
         $employee->save();
 
+        $employee_salary = Salary::where('employee_id', $id)->first();
+        $employee_salary->employee_salary = $request->employee_salary;
+        $employee_salary->save();
+
         Alert::success('Employee has been updated!')->autoclose(1000);
         return redirect()->route('employees.index');
     }
@@ -104,6 +119,9 @@ class EmployeesController extends Controller
     public function destroy($id)
     {
         $employee = User::findOrFail($id)->delete();
+        //delete employee salary
+        $employee_salary = Salary::where('employee_id', $id)->delete();
+
         Alert::success('Employee has been deleted!')->autoclose(1000);
         return redirect()->back();
     }

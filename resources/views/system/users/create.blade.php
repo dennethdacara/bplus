@@ -86,7 +86,7 @@
 
 							<div class="col-lg-4">
 								<br><label>Role:</label>
-								<select name="role_id" class="form-control">
+								<select name="role_id" class="form-control" id="createUsersRoleID">
 									@foreach($roles as $role)
 										<option value="{{$role->id}}">{{$role->name}}</option>
 				    				@endforeach
@@ -106,7 +106,7 @@
 							<div class="col-lg-4">
 								<br>
 								<label>Address:</label>
-								<textarea name="address" class="form-control" style="" cols="30" rows="3" required></textarea>
+								<textarea name="address" class="form-control" style="" cols="30" rows="5" required></textarea>
 
 								@if ($errors->has('address'))
                                     <span class="help-info">
@@ -128,6 +128,33 @@
                                     </span>
                                 @endif
 							</div>
+
+							<div class="col-lg-4" id="employeeSalary" style="display:none;">
+								<br><label>Salary(Monthly):</label>
+								<input type="number" min="0" class="form-control" name="employee_salary" id="employee_salary" autofocus placeholder="Employee Salary">
+
+								@if ($errors->has('employee_salary'))
+                                    <span class="help-info">
+                                        <strong>{{ $errors->first('employee_salary') }}</strong>
+                                    </span>
+                                @endif
+							</div>
+
+							<div class="col-lg-4" id="employeeExpertise" style="display:none;">
+								<br><label>Expertise:</label>
+								<select name="expertise_id" id="expertise_id" class="form-control">
+										<option value="">Select One</option>
+									@foreach($expertise as $expertise1)
+										<option value="{{$expertise1->id}}">{{$expertise1->name}} | Service Fee: {{$expertise1->service_fee}}</option>
+									@endforeach
+				    			</select>
+
+				    			@if ($errors->has('expertise_id'))
+                                    <span class="help-info">
+                                        <strong>{{ $errors->first('expertise_id') }}</strong>
+                                    </span>
+                                @endif
+							</div>
 							
                         </div>
 		 			
@@ -140,5 +167,9 @@
 			</div>
 	 	</div>
 	 </div>
+
+	 
+
+
 
 @stop

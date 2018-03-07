@@ -18,7 +18,7 @@ class CustomerPaymentsController extends Controller
     public function customerViewAllPayments() {
     	$payments = Payment::join('users as customers', 'customers.id', 'payments.customer_id')
 			->select('payments.total_amount as total_amount', 'payments.amount_paid as amount_paid',
-					'customers.firstname as customer_firstname', 'customers.lastname as customer_lastname',
+                    'payments.change', 'customers.firstname as customer_firstname', 'customers.lastname as customer_lastname',
 					'payments.created_at as created_at', 'payments.id as id')
 			->where('payments.customer_id', Auth::user()->id)
 			->get();

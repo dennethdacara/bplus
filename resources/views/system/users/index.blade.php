@@ -6,7 +6,7 @@
 	<div class="container mtb">
   		<h2>View All Users <a href="{{ route('users.create') }}" class="btn btn-md btn-primary">Add User</a></h2> 
   		<div class="panel panel-default">
-    		<div class="panel-body" style="background:#384452;overflow-x:auto;">
+    		<div class="panel-body" style="background:#999999c7;overflow-x:auto;"> <!-- old = #384452 -->
     			<div class="col-lg-12">
     			<table class="table table-stripped" id="users-table">
 					<thead>

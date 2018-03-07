@@ -104,7 +104,7 @@
         $('#adminViewAllReservations-table').dataTable( {
             "pageLength": 5,
             "aLengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
-            "order": [[ 9, "desc" ]] // column index, order ex. descending, ascending
+            "order": [[ 0, "desc" ]] // column index, order ex. descending, ascending
         });
 
         $('#adminViewAllBilling-table').dataTable( {
@@ -134,19 +134,31 @@
         $('#adminPayReservationBilling-table').dataTable( {
             "pageLength": 10,
             "aLengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-            "order": [[ 3, "desc" ]] // column index, order ex. descending, ascending
+            "order": [[ 2, "desc" ]] // column index, order ex. descending, ascending
+        });
+
+        $('#adminPayWalkinBilling-table').dataTable( {
+            "pageLength": 10,
+            "aLengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+            "order": [[ 2, "desc" ]] // column index, order ex. descending, ascending
         });
 
         $('#adminViewEmployeeCommissions-table').dataTable( {
             "pageLength": 5,
             "aLengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
-            "order": [[ 4, "desc" ]] // column index, order ex. descending, ascending
+            "order": [[ 6, "desc" ]] // column index, order ex. descending, ascending
         });
 
         $('#adminViewAllExpertise-table').dataTable( {
             "pageLength": 5,
             "aLengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
             "order": [[ 3, "desc" ]] // column index, order ex. descending, ascending
+        });
+
+        $('#adminViewEmployeeSalary-table').dataTable( {
+            "pageLength": 5,
+            "aLengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+            "order": [[ 4, "desc" ]] // column index, order ex. descending, ascending
         });
 
         //Employees
@@ -159,7 +171,7 @@
         $('#employeeViewAllCommissions-table').dataTable( {
             "pageLength": 5,
             "aLengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
-            "order": [[ 3, "desc" ]] // column index, order ex. descending, ascending
+            "order": [[ 5, "desc" ]] // column index, order ex. descending, ascending
         });
 
         //Customer
@@ -175,8 +187,23 @@
             "order": [[ 3, "desc" ]] // column index, order ex. descending, ascending
         });
 
-        
-        
+    </script>
+    
+    <!-- USERS CREATE MODULE -->
+    <script>
+        $('#createUsersRoleID').on('change',function(){
+            if( $(this).val()==="3"){
+                $("#employeeSalary").show()
+                $("#employeeExpertise").show()
+                document.getElementById("employee_salary").required = true;
+                document.getElementById("expertise_id").required = true;
+            } else{
+                $("#employeeSalary").hide()
+                $("#employeeExpertise").hide()
+                document.getElementById("employee_salary").required = false;
+                document.getElementById("expertise_id").required = false;
+            }
+        });
     </script>
 </body>
 </html>

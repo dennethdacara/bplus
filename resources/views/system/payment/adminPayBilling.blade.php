@@ -26,12 +26,11 @@
 						</span>
 
 						<div class="panel panel-default">
-				    		<div class="panel-body" style="background:#384452;overflow-x:auto;">
+				    		<div class="panel-body" style="background:#999999c7;overflow-x:auto;">
 				    			<div class="col-lg-12">
 				    				<table class="table table-stripped" id="adminPayReservationBilling-table">
 									<thead>
 										<tr>
-											<th>#</th>
 											<th>Service</th>
 											<th>Price</th>
 											<th>Date Added</th>
@@ -40,7 +39,6 @@
 									<tbody>
 										@foreach($getAllServices as $getAllService)
 											<tr>
-												<td>{{$getAllService->id}}</td>
 												<td>{{$getAllService->service_name}}</td>
 												<td>&#8369;{{$getAllService->price}}</td>
 												<td>{{$getAllService->created_at}}</td>
@@ -62,14 +60,21 @@
 				
 				<div class="row">
 
+					@php 
+						//Convert our percentage value into a decimal.
+        				$percentageInDecimal = $vat->percentage / 100;
+        				$totalVatPayable = $percentageInDecimal * $getTotalAmountDue->total;
+					@endphp
+
 					<div class="col-lg-12">
 						<br>
 						<h4>HairStylist: {{$getAllServices[0]->hairstylist_firstname}} {{$getAllServices[0]->hairstylist_lastname}} | Expertise: {{$getAllServices[0]->expertise}} </h4>
 						<h4>Amount Due: &#8369;{{$getTotalAmountDue->total}}</h4>
+						<h4>Vat (Excl): {{$vat->percentage}}% ({{$totalVatPayable}})</h4>
 						<h4>Service Fee: &#8369;{{$getAllServices[0]->service_fee}}</h4>
-						<h3>Total Amount Due: <span style="color:red;">&#8369;{{$getTotalAmountDue->total + $getAllServices[0]->service_fee}}</span></h3>
+						<h3>Total Amount Due: <span style="color:red;">&#8369;{{$getTotalAmountDue->total + $getAllServices[0]->service_fee + $totalVatPayable}}</span></h3>
 
-						<input type="hidden" name="totalAmountDue" value="{{$getTotalAmountDue->total + $getAllServices[0]->service_fee}}">
+						<input type="hidden" name="totalAmountDue" value="{{$getTotalAmountDue->total + $getAllServices[0]->service_fee + $totalVatPayable}}">
 						<input type="hidden" name="customer_id" value="{{$getAllServices[0]->customer_id}}">
 						<input type="hidden" name="billing_id" value="{{$getAllServices[0]->billing_id}}">
 						<input type="hidden" name="employee_id" value="{{$getAllServices[0]->employee_id}}">

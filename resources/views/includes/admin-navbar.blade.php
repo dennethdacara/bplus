@@ -38,9 +38,21 @@
             <ul class="nav navbar-nav">
                 <li><a href="{{ route('users.index') }}">USERS</a></li>
                 <li><a href="{{ route('walk-in.create') }}">ADD WALK-IN</a></li>
-                 <li><a href="{{ route('walk-in.index') }}">WALK-IN CUSTOMERS</a></li>
-                <li><a href="{{ route('employees.index') }}">EMPLOYEES</a></li>
-                <li><a href="{{ route('viewAllCommissions') }}">EMPLOYEE COMMISSIONS</a></li>
+                <li><a href="{{ route('walk-in.index') }}">WALK-IN CUSTOMERS</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">EMPLOYEES<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+
+                        <li><a href="{{ route('employees.index') }}">
+                            VIEW ALL EMPLOYEES
+                            </a>
+                        </li>
+                        <li><a href="{{ route('viewAllCommissions') }}">EMPLOYEE COMMISSIONS</a></li>
+                        <li><a href="{{ route('salary.index') }}">EMPLOYEE SALARY</a></li>
+                    </ul>
+                </li>
+
+                
                 <li><a href="{{ route('viewAllReservations')}}">RESERVATIONS</a></li>
                 <li><a href="{{ route('adminViewBilling')}}">BILLING</a></li>
                 <li><a href="{{ route('adminViewAllPayments')}}">PAYMENTS</a></li>
@@ -48,24 +60,11 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Settings<b class="caret"></b></a>
                     <ul class="dropdown-menu">
-
-                        <li><a class="" href="{{ route('editCommissionSettings') }}">
-                            <center>Commission Settings</center>
-                            </a>
-                        </li>
-                        <li><a class="" href="{{ route('expertise.index') }}">
-                            <center>Expertise</center>
-                            </a>
-                        </li>
-                        <li><a class="" href="{{ route('service-type.index') }}">
-                            <center>Service Type</center>
-                            </a>
-                        </li>
-                        <li><a class="" href="{{ route('services.index') }}">
-                            <center>Services</center>
-                            </a>
-                        </li>
-
+                        <li><a href="{{ route('editCommissionSettings') }}">Commission Settings</a></li>
+                        <li><a href="{{ route('editVatSettings') }}">Vat Settings</a></li>
+                        <li><a class="" href="{{ route('expertise.index') }}">Expertise</a></li>
+                        <li><a class="" href="{{ route('service-type.index') }}">Service Type</a></li>
+                        <li><a class="" href="{{ route('services.index') }}">Services</a></li>
                     </ul>
                 </li>
 

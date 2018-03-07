@@ -6,7 +6,7 @@
 	<div class="container mtb">
   		<h2>View All Walk-in <a href="{{ route('walk-in.create') }}" class="btn btn-md btn-primary">Add New Walk-in</a></h2> 
   		<div class="panel panel-default">
-    		<div class="panel-body" style="background:#384452;overflow-x:auto;">
+    		<div class="panel-body" style="background:#999999c7;overflow-x:auto;">
     			<div class="col-lg-12">
     			<table class="table table-stripped" id="viewAllWalkin-table">
 					<thead>

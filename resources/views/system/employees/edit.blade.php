@@ -131,6 +131,17 @@
                                 @endif
 							</div>
 
+							<div class="col-lg-4">
+								<br><label>Salary(Monthly):</label>
+								<input type="number" min="0" class="form-control" name="employee_salary" id="employee_salary" value="{{$employee->employee_salary}}" required>
+
+								@if ($errors->has('employee_salary'))
+                                    <span class="help-info">
+                                        <strong>{{ $errors->first('employee_salary') }}</strong>
+                                    </span>
+                                @endif
+							</div>
+
                         </div>
 		 			
 						<br>

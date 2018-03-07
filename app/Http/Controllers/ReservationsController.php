@@ -1,12 +1,10 @@
 <?php
 namespace App\Http\Controllers;
+use App\User, App\Service, App\Expertise;
+use App\Reservation, App\ServiceType;
 use App\Billing, App\BillingService;
-use App\Reservation;
-use App\ServiceType;
-use App\Expertise;
-use Auth, DB, Alert;
-use App\User, App\Service;
 use App\ReservationService;
+use Auth, DB, Alert;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 
@@ -73,7 +71,6 @@ class ReservationsController extends Controller
             	->first();
             //check if customer is currently reserved with same date/time
 
-
 	        if($checkReservationConflict || $checkReservationConflict1) {
 	            Alert::error('Home Service Reservation Has Conflict!')->autoclose(1000);
 	            return redirect()->back()->withInput(Input::all());
@@ -98,7 +95,7 @@ class ReservationsController extends Controller
 		        }
 
 		        Alert::success('Home Service Reservation Successful!')->autoclose(1000);
-    			return redirect()->back();
+    			return redirect()->route('viewAllReservations');
 
 	        }
 
@@ -155,7 +152,7 @@ class ReservationsController extends Controller
 		        }
 
 		        Alert::success('Home Service Reservation Successful!')->autoclose(1000);
-    			return redirect()->back();
+    			return redirect()->route('viewAllReservations');
 
     		}
     	}
@@ -226,7 +223,7 @@ class ReservationsController extends Controller
 		        }
 
 		        Alert::success('On Salon Reservation Successful!')->autoclose(1000);
-    			return redirect()->back();
+    			return redirect()->route('viewAllReservations');
 	        }
     	} else { //if customer doesnt exist
     		
@@ -281,7 +278,7 @@ class ReservationsController extends Controller
 		        }
 
 		        Alert::success('On Salon Reservation Successful!')->autoclose(1000);
-    			return redirect()->back();
+    			return redirect()->route('viewAllReservations');
     		}
     	}
     }

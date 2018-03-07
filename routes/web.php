@@ -25,6 +25,7 @@ route::group(['middleware' => 'auth'], function() {
 	route::resource('employees', 'EmployeesController'); //EMPLOYEES
 	route::resource('walk-in', 'WalkinController'); //WALKINS
 	route::resource('expertise', 'ExpertiseController'); //EXPERTISE
+	route::resource('salary', 'SalaryController'); //EMPLOYEE SALARY
 
 	//commissions
 	route::get('admin/employee-commissions', 'CommissionsController@viewAllCommissions')->name('viewAllCommissions');
@@ -35,6 +36,13 @@ route::group(['middleware' => 'auth'], function() {
 
 	route::post('admin/commission/settings', 'CommissionsController@updateCommissionSettings')
 	->name('updateCommissionSettings');
+
+	//vat settings
+	route::get('admin/vat/settings', 'VatController@editVatSettings')
+	->name('editVatSettings');
+
+	route::post('admin/vat/settings', 'VatController@updateVatSettings')
+	->name('updateVatSettings');
 
 
 	//walkin pay

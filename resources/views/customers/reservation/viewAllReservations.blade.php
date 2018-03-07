@@ -7,7 +7,7 @@
   		<h2>View All Reservations <a href="{{ route('customerAddHomeServiceReservation') }}" class="btn btn-md btn-primary">Add New Home Service Reservation</a> <a href="{{ route('customerAddOnSpaReservation') }}" class="btn btn-md btn-primary">Add New On Salon Reservation</a></h2> 
 
   		<div class="panel panel-default">
-    		<div class="panel-body" style="background:#384452;overflow-x:auto;">
+    		<div class="panel-body" style="background:#999999c7;overflow-x:auto;">
     			<div class="col-lg-12">
     			<table class="table table-stripped" id="customerViewAllReservations-table">
 					<thead>
@@ -34,7 +34,7 @@
 								<td>{{$reservation->reservation_time}}</td>
 								<td>{{$reservation->address}}</td>
 								<td>{{$reservation->hairstylist}}</td>
-								<td width="40%;">
+								<td>
 									@foreach($getServices as $getService)
 										@if($reservation->id == $getService->reservation_id)
 											{{$getService->name}} (&#8369;{{$getService->price}}),
@@ -56,7 +56,7 @@
 								@php
 									$date_added = date("M jS, Y h:i a", strtotime($reservation->date_added)); 
 								@endphp
-								<td width="10%;">{{$date_added}}</td>
+								<td>{{$date_added}}</td>
 								<td>
 									@if($reservation->status == 'Pending')
 										<a href="{{ route('customerCancelReservation', ['reservation_id' => $reservation->id])}}" class="btn btn-md btn-danger" onclick="return confirm('Cancel reservation?');">Cancel</a>

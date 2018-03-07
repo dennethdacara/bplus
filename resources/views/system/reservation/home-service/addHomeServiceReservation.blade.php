@@ -93,7 +93,7 @@
 
 						<div class="col-lg-6 col-md-6">
 							<br><label>Address:</label>
-							<textarea name="address" cols="30" rows="3" class="form-control">{{old('address')}}</textarea>
+							<textarea name="address" cols="30" rows="3" style="resize:vertical;" class="form-control">{{old('address')}}</textarea>
 
 							@if ($errors->has('address'))
                                 <strong>{{ $errors->first('address') }}</strong>
@@ -118,22 +118,25 @@
 					<div class="row col-lg-12">
 						<br><h3>Services :</h3>
 						@foreach($service_types as $service_type)
-							<br><h3 style="color: #3844A1;">{{$service_type->name}}</h3><br>
+							<br><h3>{{$service_type->name}}</h3><br>
+							<ul class="checkboxes1" style="columns: 4 8em;">
 	                        @foreach($services as $service)
 	                        	@if($service->service_type_id == $service_type->id)
-	                        	<label class="">
-	                        		<input type="checkbox" name="service_id[]" style="margin-left:10px;" value="{{$service->id}}" 
+	                        	<label>
+	                        		<input type="checkbox" name="service_id[]" value="{{$service->id}}" 
 	                        		@if(is_array(old('service_id')) && in_array($service->id, old('service_id'))) checked @endif />
-	                        		{{$service->name}}
+	                        		{{$service->name}} (&#8369;{{$service->price}})
 	                        	</label>
 	                        	@endif
 	                        @endforeach 
+	                    	</ul>
 	                    @endforeach
 					</div>
 
 					<div class="row col-lg-12">
 						<br>
 			  			<button type="submit" class="btn btn-theme">Submit</button>
+			  			<a href="{{ route('viewAllReservations') }}" class="btn btn-theme">Back</a>
 			  		</div>
 					
 				</form>

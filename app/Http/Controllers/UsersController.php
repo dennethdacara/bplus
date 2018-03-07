@@ -1,10 +1,12 @@
 <?php
 namespace App\Http\Controllers;
-use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Http\Request;
-use App\Role, App\User;
+use App\Salary;
 use Alert, Auth;
+use App\Expertise;
+use App\Role, App\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Input;
 
 class UsersController extends Controller
 {
@@ -25,7 +27,8 @@ class UsersController extends Controller
     public function create()
     {
         $roles = Role::all();
-        return view ('system/users/create', compact('roles'));
+        $expertise = Expertise::all();
+        return view ('system/users/create', compact('roles', 'expertise'));
     }
 
     public function store(Request $request)
@@ -57,7 +60,16 @@ class UsersController extends Controller
             'gender' => $request->gender,
             'role_id' => $request->role_id,
             'address' => $request->address,
+            'expertise_id' => $request->expertise_id
         ]);
+
+        //IF USER IS EMPLOYEE
+        if($request->employee_salary != null) {
+            $createEmployeeSalary = Salary::create([
+                'employee_id' => $createUser->id,
+                'employee_salary' => $request->employee_salary
+            ]);
+        }
 
         Alert::success('User has been Added!')->autoclose(1000);
         return redirect()->route('users.index');

@@ -15,9 +15,9 @@
 	<div class="container mtb">
 	 	<div class="row">
 	 		<div class="col-lg-6">
-	 			<h4>Commission Settings</h4>
+	 			<h4>Vat Settings</h4>
 	 			<div class="hline"></div>
-	 			<form role="form" method="POST" action="{{ route('updateCommissionSettings') }}">
+	 			<form role="form" method="POST" action="{{ route('updateVatSettings') }}">
                    	{{ csrf_field() }}
 
 					<div class="row">
@@ -25,7 +25,7 @@
 						<div class="col-lg-6 col-md-6">
 							<br><label>Percentage(%):</label>
 							<input type="number" min="0" max="100" name="percentage" 
-							value="{{$currentCommissionSettings->percentage}}" class="form-control">
+							value="{{$currentVatSettings->percentage}}" class="form-control">
 
 							@if ($errors->has('percentage'))
                                 <strong>{{ $errors->first('percentage') }}</strong>

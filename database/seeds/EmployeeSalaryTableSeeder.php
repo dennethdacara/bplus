@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class ExpertiseTableSeeder extends Seeder
+class EmployeeSalaryTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,31 +11,25 @@ class ExpertiseTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('expertise')->insert([
+        DB::table('salary')->insert([
         	[
-        		'name' => 'Haircut',
-        		'service_fee' => 50,
+        		'employee_id' => 5,
+        		'employee_salary' => 4000,
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
         	],
         	[
-        		'name' => 'Manicure',
-        		'service_fee' => 40,
+        		'employee_id' => 6,
+        		'employee_salary' => 4000,
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
         	],
         	[
-        		'name' => 'All Around',
-        		'service_fee' => 100,
+        		'employee_id' => 7,
+        		'employee_salary' => 4000,
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
         	],
-            [
-                'name' => 'Foot Spa',
-                'service_fee' => 60,
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
-            ],
         ]);
     }
 }

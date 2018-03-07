@@ -55,6 +55,7 @@ abbr[title] {
 b,
 strong {
   font-weight: bold;
+  color: red;
 }
 dfn {
   font-style: italic;
@@ -180,7 +181,7 @@ table{
   border-spacing: 0;
   border-collapse: collapse;
   width: 100%;
-  border: 1px solid black;
+  /* border: 1px solid black; */
 }
 
 
@@ -188,6 +189,7 @@ td,
 th {
   padding: 8px;
   text-align: left;
+  color: #080808; /* black custom added march 5 2018 */
 }
 @media print {
   * {
@@ -1417,8 +1419,9 @@ table {
 }
 th {
   text-align: left;
-  background-color: #384452;
-  color: white;
+  /* background-color: #384452; */
+  /* color: white; */
+  color: #080808;
 }
 .table {
   width: 100%;
@@ -1664,6 +1667,7 @@ label {
   display: inline-block;
   margin-bottom: 5px;
   font-weight: bold;
+  color: black;
 }
 input[type="search"] {
   -webkit-box-sizing: border-box;

@@ -14,7 +14,7 @@ class User extends Authenticatable
     const IS_EMPLOYEE = 3;
 
     protected $fillable = [
-        'firstname', 'middlename', 'lastname', 'email', 'password', 'contact_no', 'address', 'gender', 'role_id', 'expertise'
+        'firstname', 'middlename', 'lastname', 'email', 'password', 'contact_no', 'address', 'gender', 'role_id', 'expertise_id'
     ];
 
     protected $hidden = [
