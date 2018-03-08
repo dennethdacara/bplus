@@ -119,7 +119,7 @@
 						<div class="col-lg-12 col-md-6">
 							<br><label>Address: </label>
 							<textarea name="address" style="resize:vertical;" @if ($errors->has('address')) style="border-color: red;" @endif cols="30" rows="3" class="form-control"
-							placeholder="Your address" title="Please enter your address"></textarea>
+							placeholder="Your address" title="Please enter your address">{{ old('address') }}</textarea>
 
 							@if ($errors->has('address'))
                                 <strong>{{ $errors->first('address') }}</strong>
