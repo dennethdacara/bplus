@@ -20,11 +20,14 @@
 					</thead>
 					<tbody>
 						@foreach($expertise as $expertise1)
+							@php
+								$created_at = date("M jS, Y h:i a", strtotime($expertise1->created_at)); 
+							@endphp
 							<tr>
 								<td>{{$expertise1->id}}</td>
 								<td>{{$expertise1->name}}</td>
 								<td>&#8369;{{$expertise1->service_fee}}</td>
-								<td>{{$expertise1->created_at}}</td>
+								<td>{{$created_at}}</td>
 								<td>
 									<form method="POST" action="{{ route('expertise.destroy', ['id' => $expertise1->id]) }}">
 

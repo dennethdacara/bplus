@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Vat;
 use Auth, Alert, DB;
+use App\WalkinPayment;
 use Illuminate\Http\Request;
 use App\CommissionEmployeeServices;
 use Illuminate\Support\Facades\Input;
@@ -58,7 +59,7 @@ class WalkinController extends Controller
             ->first();
 
         if($checkExistingWalkin) {
-            Alert::error('Walk-in has conflict!')->autoclose(1000);
+            Alert::error('Walk-in has conflict!')->persistent("OK");
             return redirect()->back()->withInput(Input::all());
         }
 
@@ -81,7 +82,7 @@ class WalkinController extends Controller
             $i++;
         }
 
-        Alert::success('Walk-in has been Added!')->autoclose(1000);
+        Alert::success('Walk-in has been Added!')->persistent("OK");
         return redirect()->route('walk-in.index');
 
     }
@@ -104,6 +105,8 @@ class WalkinController extends Controller
             ->where('service_walkin.walkin_id', $walkin_id)
             ->get();
 
+        $getCustomerDetails = Walkin::where('id', $walkin_id)->first();
+
         //display list of availed walkin services
         $getAllWalkinServices = ServiceWalkin::join('services', 'services.id', 'service_walkin.service_id')
             ->join('walkin', 'walkin.id', 'service_walkin.walkin_id')
@@ -115,7 +118,8 @@ class WalkinController extends Controller
         //get default Vat
         $vat = Vat::first();
 
-        return view('system/payment/adminPayWalkin', compact('getTotalAmountDue', 'getAllWalkinServices', 'vat'));
+        return view('system/payment/adminPayWalkin', compact('getTotalAmountDue', 'getAllWalkinServices', 
+            'vat', 'getCustomerDetails'));
     }
 
     public function walkinPayStore(Request $request) {
@@ -126,8 +130,13 @@ class WalkinController extends Controller
 
         //VALIDATE PAYMENT
         if($request->amount_paid < $request->totalAmountDue) { //if amount paid < total amount due
-            Alert::error('Invalid Amount! Please pay the total amount due.')->autoclose(1000);
+            Alert::error('Invalid Amount! Please pay the total amount due.')->persistent("OK");
             return redirect()->back()->withInput(Input::all());
+        }
+
+        //IF AMOUNT PAID IS LESSER THAN TOTAL AMOUNT TO BE PAID (MAY SUKLI)
+        if($request->amount_paid >= $request->totalAmountDue) {
+            $change = ($request->amount_paid - $request->totalAmountDue);
         }
 
         $updateWalkinStatus = Walkin::where('id', $request->walkin_id)->first();
@@ -136,11 +145,13 @@ class WalkinController extends Controller
         $updateWalkinStatus->save();
 
         //INSERT PAYMENT
-        /*$addPayment = Payment::create([
-            'customer_id' => 0,
+        $addWalkinPayment = WalkinPayment::create([
+            'customer_firstname' => $request->customer_firstname,
+            'customer_lastname' => $request->customer_lastname,
             'total_amount' => $request->totalAmountDue,
-            'amount_paid' => $request->amount_paid
-        ]);*/
+            'amount_paid' => $request->amount_paid,
+            'change' => $change
+        ]);
 
         //INSERT HAIRSTYLIST/EMPLOYEE COMMISSION
         $getDefaultCommissionPercentage = CommissionSetting::first();

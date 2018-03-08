@@ -37,7 +37,7 @@ class CustomerReservationController extends Controller
         $reservation->processed_by = $cancelled_by;
         $reservation->save();
 
-        Alert::success('Reservation Cancelled!')->autoclose(1000);
+        Alert::success('Reservation Cancelled!')->persistent("OK");
         return redirect()->back();
     }
 
@@ -71,7 +71,7 @@ class CustomerReservationController extends Controller
         //check if customer is currently reserved with same date/time
 
         if($checkReservationConflict || $checkReservationConflict1) {
-        	Alert::error('Home Service Reservation Has Conflict!')->autoclose(1000);
+        	Alert::error('Home Service Reservation Has Conflict!')->persistent("OK");
 	        return redirect()->back()->withInput(Input::all());
         } else { //IF THERE IS NO CONFLICT
         	$createHomeServiceReservation = Reservation::create([
@@ -94,7 +94,7 @@ class CustomerReservationController extends Controller
             $i++;
         }
 
-        Alert::success('Customer Home Service Reservation Successful!')->autoclose(1000);
+        Alert::success('Customer Home Service Reservation Successful!')->persistent("OK");
     	return redirect()->back();
 
     }
@@ -127,7 +127,7 @@ class CustomerReservationController extends Controller
         //check if customer is currently reserved with same date/time
 
        	if($checkReservationConflict || $checkReservationConflict1) {
-	            Alert::error('On Salon Reservation Has Conflict!')->autoclose(1000);
+	            Alert::error('On Salon Reservation Has Conflict!')->persistent("OK");
 	            return redirect()->back()->withInput(Input::all());
 	        } else { //IF THERE IS NO CONFLICT
 	        	$createHomeServiceReservation = Reservation::create([
@@ -149,7 +149,7 @@ class CustomerReservationController extends Controller
 		            $i++;
 		        }
 
-		        Alert::success('Customer On Salon Reservation Successful!')->autoclose(1000);
+		        Alert::success('Customer On Salon Reservation Successful!')->persistent("OK");
     			return redirect()->back();
 	        }
     }

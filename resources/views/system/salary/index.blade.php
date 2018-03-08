@@ -21,16 +21,18 @@
 					</thead>
 					<tbody>
 						@foreach($employee_salary as $employee_salary1)
+						@php
+							$created_at = date("M jS, Y h:i a", strtotime($employee_salary1->created_at)); 
+						@endphp
 						<tr>
-							<th>{{$employee_salary1->salary_id}}</th>
-							<th>{{$employee_salary1->firstname}} {{$employee_salary1->lastname}}</th>
-							<th>{{$employee_salary1->expertise}}</th>
-							<th>&#8369;{{$employee_salary1->employee_salary}}</th>
-							<th>{{$employee_salary1->created_at}}</th>
-							<th>
+							<td>{{$employee_salary1->salary_id}}</td>
+							<td>{{$employee_salary1->firstname}} {{$employee_salary1->lastname}}</td>
+							<td>{{$employee_salary1->expertise}}</td>
+							<td>&#8369;{{$employee_salary1->employee_salary}}</td>
+							<td>{{$created_at}}</td>
+							<td>
 								<a href="{{ route('salary.edit', ['id' => $employee_salary1->salary_id]) }}" class="btn btn-md btn-primary">Edit Employee Salary</a>
-							</th>
-
+							</td>
 						</tr>
 						@endforeach
 					</tbody>

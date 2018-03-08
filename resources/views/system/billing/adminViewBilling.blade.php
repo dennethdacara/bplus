@@ -25,6 +25,9 @@
 					</thead>
 					<tbody>
 						@foreach($billings as $billing)
+							@php
+								$created_at = date("M jS, Y h:i a", strtotime($billing->created_at)); 
+							@endphp
 							<tr>
 								<td>{{$billing->id}}</td>
 								<td>{{$billing->customer_firstname}}</td>
@@ -45,7 +48,7 @@
 									@endforeach
 								</td>
 								<td>{{$billing->status}}</td>
-								<td>{{$billing->created_at}}</td>
+								<td>{{$created_at}}</td>
 								<td>
 									@if($billing->status != 'Paid')
 										<a href="{{ route('adminPayBilling', ['billing_id' => $billing->id]) }}" class="btn btn-md btn-primary">Pay</a>

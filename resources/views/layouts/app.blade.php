@@ -116,6 +116,12 @@
         $('#adminViewAllPayments-table').dataTable( {
             "pageLength": 5,
             "aLengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+            "order": [[ 4, "asc" ]] // column index, order ex. descending, ascending
+        });
+
+        $('#adminViewAllWalkinPayments-table').dataTable( {
+            "pageLength": 5,
+            "aLengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
             "order": [[ 4, "desc" ]] // column index, order ex. descending, ascending
         });
 

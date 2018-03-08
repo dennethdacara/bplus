@@ -13,12 +13,12 @@ class ServiceTypeTableSeeder extends Seeder
     {
         DB::table('service_type')->insert([
         	[
-        		'name' => 'hair fashion and treatments',
+        		'name' => 'HAIR FASHION AND TREATMENTS',
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
         	],
         	[
-        		'name' => 'other treatments',
+        		'name' => 'OTHER TREATMENTS',
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
         	],

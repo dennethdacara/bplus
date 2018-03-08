@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 use App\Vat;
 use Auth, DB, Alert;
+use App\WalkinPayment;
 use Illuminate\Http\Request;
 use App\CommissionEmployeeServices;
 use Illuminate\Support\Facades\Input;
@@ -17,7 +18,8 @@ class PaymentController extends Controller
 					'payments.created_at', 'payments.id')
 			->get();
 
-		return view ('system/payment/adminViewAllPayments', compact('payments'));
+        $walkinPayments = WalkinPayment::all();
+		return view ('system/payment/adminViewAllPayments', compact('payments', 'walkinPayments'));
 	}
 
     public function adminPayBilling($billing_id) {
@@ -52,7 +54,7 @@ class PaymentController extends Controller
 
         //VALIDATE PAYMENT
         if($request->amount_paid < $request->totalAmountDue) { //if amount paid < total amount due
-            Alert::error('Invalid Amount! Please pay the total amount due.')->autoclose(1000);
+            Alert::error('Invalid Amount! Please pay the total amount due.')->persistent("OK");
             return redirect()->back()->withInput(Input::all());
         }
 

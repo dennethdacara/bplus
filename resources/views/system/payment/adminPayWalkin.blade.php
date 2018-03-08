@@ -60,6 +60,8 @@
 					<div class="row">
 
 						<input type="hidden" name="walkin_id" value="{{$getTotalAmountDue[0]->walkin_id}}">
+						<input type="hidden" name="customer_firstname" value="{{$getCustomerDetails->firstname}}">
+						<input type="hidden" name="customer_lastname" value="{{$getCustomerDetails->lastname}}">
 
 						@php 
 							//Convert our percentage value into a decimal.
@@ -69,6 +71,7 @@
 
 					<div class="col-lg-12">
 						<br>
+						<h3>Customer: {{$getCustomerDetails->firstname}} {{$getCustomerDetails->lastname}}</h3>
 						<h3>HairStylist: {{$getTotalAmountDue[0]->employee_firstname}} {{$getTotalAmountDue[0]->employee_lastname}} | Expertise: {{$getTotalAmountDue[0]->expertise}}</h3>
 						<h3>Amount Due: &#8369;{{$getTotalAmountDue[0]->total}}</h3>
 						<h3>

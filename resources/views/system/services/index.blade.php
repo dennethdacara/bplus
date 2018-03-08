@@ -21,12 +21,15 @@
 					</thead>
 					<tbody>
 						@foreach($services as $service)
+						@php
+							$created_at = date("M jS, Y h:i a", strtotime($service->created_at)); 
+						@endphp
 						<tr>
 							<td>{{$service->id}}</td>
 							<td>{{$service->name}}</td>
 							<td>&#8369;{{$service->price}}</td>
 							<td>{{$service->service_type}}</td>
-							<td>{{$service->created_at}}</td>
+							<td>{{$created_at}}</td>
 							<td>
 								<form method="POST" action="{{ route('services.destroy', ['id' => $service->id]) }}">
 
