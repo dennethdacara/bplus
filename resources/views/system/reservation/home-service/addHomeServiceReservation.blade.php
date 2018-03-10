@@ -64,21 +64,21 @@
 								<option value="11:00 - 11:30 AM">11:00 - 11:30AM</option>
 								<option value="11:30 AM - 12:00 PM">11:30AM - 12:00PM</option>
 								<option value="12:00 - 12:30 PM">12:00 - 12:30PM</option>
-								<option value="12:30 - 13:00 PM">12:30 - 1:00PM</option>
-								<option value="13:00 - 13:30 PM">1:00 - 1:30PM</option>
-								<option value="13:30 - 14:00 PM">1:30 - 2:00PM</option>
-								<option value="14:00 - 14:30 PM">2:00 - 2:30PM</option>
-								<option value="14:30 - 15:00 PM">2:30 - 3:00PM</option>
-								<option value="15:00 - 15:30 PM">3:00 - 3:30PM</option>
-								<option value="15:30 - 16:00 PM">3:30 - 4:00PM</option>
-								<option value="16:00 - 16:30 PM">4:00 - 4:30PM</option>
-								<option value="16:30 - 17:00 PM">4:30 - 5:00PM</option>
-								<option value="17:00 - 17:30 PM">5:00 - 5:30PM</option>
-								<option value="17:30 - 18:00 PM">5:30 - 6:00PM</option>
-								<option value="18:00 - 18:30 PM">6:00 - 6:30PM</option>
-								<option value="18:30 - 19:00 PM">6:30 - 7:00PM</option>
-								<option value="19:00 - 19:30 PM">7:00 - 7:30PM</option>
-								<option value="19:30 - 20:00 PM">7:30 - 8:00PM</option>
+								<option value="12:30 - 1:00 PM">12:30 - 1:00PM</option>
+								<option value="1:00 - 1:30 PM">1:00 - 1:30PM</option>
+								<option value="1:30 - 2:00 PM">1:30 - 2:00PM</option>
+								<option value="2:00 - 2:30 PM">2:00 - 2:30PM</option>
+								<option value="2:30 - 3:00 PM">2:30 - 3:00PM</option>
+								<option value="3:00 - 3:30 PM">3:00 - 3:30PM</option>
+								<option value="3:30 - 4:00 PM">3:30 - 4:00PM</option>
+								<option value="4:00 - 4:30 PM">4:00 - 4:30PM</option>
+								<option value="4:30 - 5:00 PM">4:30 - 5:00PM</option>
+								<option value="5:00 - 5:30 PM">5:00 - 5:30PM</option>
+								<option value="5:30 - 6:00 PM">5:30 - 6:00PM</option>
+								<option value="6:00 - 6:30 PM">6:00 - 6:30PM</option>
+								<option value="6:30 - 7:00 PM">6:30 - 7:00PM</option>
+								<option value="7:00 - 7:30 PM">7:00 - 7:30PM</option>
+								<option value="7:30 - 8:00 PM">7:30 - 8:00PM</option>
 
 							</select>
 

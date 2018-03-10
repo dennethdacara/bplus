@@ -173,7 +173,7 @@ class ReservationsController extends Controller
     public function storeOnSpaReservation(Request $request) {
     	$this->validate($request, [
     		'firstname' => 'required', 'lastname' => 'required', 'reservation_date' => 'required',
-    		'reservation_time' => 'required', 'address' => 'required', 'employee_id' => 'required',
+    		'reservation_time' => 'required', 'employee_id' => 'required',
     		'service_id' => 'required'
     	]);
 
@@ -203,20 +203,20 @@ class ReservationsController extends Controller
 	            Alert::error('On Salon Reservation Has Conflict!')->persistent("OK");
 	            return redirect()->back()->withInput(Input::all());
 	        } else { //IF THERE IS NO CONFLICT
-	        	$createHomeServiceReservation = Reservation::create([
+	        	$createOnSalonReservation = Reservation::create([
 	        		'customer_id' => $checkCustomer->customer_id,
 	        		'reservation_date' => $request->reservation_date,
 	        		'reservation_time' => $request->reservation_time,
 	        		'employee_id' => $request->employee_id,
 	        		'type' => 'On Salon',
-	        		'address' => $request->address,
+	        		'address' => 'Not Provided',
 	        		'status' => 'Pending'
 	        	]);
 
 	        	$i = 0; 
 		        foreach($request->service_id as $key => $v){
 		            $createReservationServicePivot = ReservationService::create([
-		                'reservation_id' => $createHomeServiceReservation->id,
+		                'reservation_id' => $createOnSalonReservation->id,
 		                'service_id' => $request->service_id[$i],
 		            ]);
 		            $i++;
@@ -236,7 +236,7 @@ class ReservationsController extends Controller
     			'email' => $generateEmail,
     			'password' => bcrypt('password'),
     			'contact_no' => '09123456789',
-    			'address' => $request->address,
+    			'address' => 'Not Provided',
     			'gender' => 'male'
     		]);
 
@@ -258,20 +258,20 @@ class ReservationsController extends Controller
 	            Alert::error('On Salon Reservation Has Conflict!')->persistent("OK");
 	            return redirect()->back()->withInput(Input::all());
 	        } else { //IF THERE IS NO CONFLICT
-	        	$createHomeServiceReservation = Reservation::create([
+	        	$createOnSalonReservation = Reservation::create([
 	        		'customer_id' => $createNewUser->id,
 	        		'reservation_date' => $request->reservation_date,
 	        		'reservation_time' => $request->reservation_time,
 	        		'employee_id' => $request->employee_id,
 	        		'type' => 'On Salon',
-	        		'address' => $request->address,
+	        		'address' => 'Not Provided',
 	        		'status' => 'Pending'
 	        	]);
 
 	        	$i = 0; 
 		        foreach($request->service_id as $key => $v){
 		            $createReservationServicePivot = ReservationService::create([
-		                'reservation_id' => $createHomeServiceReservation->id,
+		                'reservation_id' => $createOnSalonReservation->id,
 		                'service_id' => $request->service_id[$i],
 		            ]);
 		            $i++;

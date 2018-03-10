@@ -67,7 +67,25 @@
     <!-- Air DatePicker -->
     <script src="{{ asset('air-datepicker/dist/js/datepicker.min.js') }}"></script>
     <script src="{{ asset('air-datepicker/dist/js/i18n/datepicker.en.js') }}"></script>
+    
     <!-- -->
+   <!--  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+   <script>
+       var app6 = new Vue({
+         el: '#vue-Register',
+         data: {
+           firstname: '',
+           lastname: '',
+           contact: '',
+           email: '',
+           gender: '',
+           address: ''
+         }
+       })
+   </script> -->
+
+    <!--VUEJS-->
+    
 
     <script>
         //for walkin customer
