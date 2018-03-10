@@ -18,6 +18,7 @@ class CreateBillingTable extends Migration
             $table->integer('customer_id');
             $table->integer('employee_id');
             $table->integer('cashier_id');
+            $table->integer('reservation_id');
             $table->string('status');
             $table->timestamps();
         });

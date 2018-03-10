@@ -284,6 +284,7 @@ class ReservationsController extends Controller
     }
 
     public function adminApproveReservation($reservation_id) {
+        
     	$reservation = Reservation::where('id', $reservation_id)->first();
     	$reservation->status = 'Approved';
     	$approved_by = Auth::user()->id;
@@ -303,6 +304,7 @@ class ReservationsController extends Controller
             'customer_id' => $getServicesFromPivot[0]->customer_id,
             'employee_id' => $getServicesFromPivot[0]->stylist_id,
             'cashier_id' => Auth::user()->id,
+            'reservation_id' => $reservation_id,
             'status' => 'Waiting for Payment'
         ]);
 

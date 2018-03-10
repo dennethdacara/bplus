@@ -19,14 +19,14 @@
 							<th>Cashier</th>
 							<th>Total</th>
 							<th>Status</th>
-							<th>Date Added</th>
+							<th>Date Of Reservation</th>
 							<th>Action</th>
 						</tr>
 					</thead>
 					<tbody>
 						@foreach($billings as $billing)
 							@php
-								$created_at = date("M jS, Y h:i a", strtotime($billing->created_at)); 
+								$reservation_date = date("M jS, Y h:i a", strtotime($billing->reservation_date)); 
 							@endphp
 							<tr>
 								<td>{{$billing->id}}</td>
@@ -48,7 +48,7 @@
 									@endforeach
 								</td>
 								<td>{{$billing->status}}</td>
-								<td>{{$created_at}}</td>
+								<td>{{$reservation_date}}</td>
 								<td>
 									@if($billing->status != 'Paid')
 										<a href="{{ route('adminPayBilling', ['billing_id' => $billing->id]) }}" class="btn btn-md btn-primary">Pay</a>
