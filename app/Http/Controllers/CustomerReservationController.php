@@ -113,8 +113,7 @@ class CustomerReservationController extends Controller
     public function storeOnSpaReservation(Request $request) {
 
     	$this->validate($request, [
-    		'reservation_date' => 'required', 'reservation_time' => 'required', 
-    		'address' => 'required', 'employee_id' => 'required', 'service_id' => 'required'
+    		'reservation_date' => 'required', 'reservation_time' => 'required', 'employee_id' => 'required', 'service_id' => 'required'
     	]);
 
     	$checkReservationConflict = Reservation::where('reservation_time', $request->reservation_time)
@@ -130,20 +129,20 @@ class CustomerReservationController extends Controller
 	            Alert::error('On Salon Reservation Has Conflict!')->persistent("OK");
 	            return redirect()->back()->withInput(Input::all());
 	        } else { //IF THERE IS NO CONFLICT
-	        	$createHomeServiceReservation = Reservation::create([
+	        	$createOnSalonReservation = Reservation::create([
 	        		'customer_id' => $request->customer_id,
 	        		'reservation_date' => $request->reservation_date,
 	        		'reservation_time' => $request->reservation_time,
 	        		'employee_id' => $request->employee_id,
 	        		'type' => 'On Salon',
-	        		'address' => $request->address,
+	        		'address' => 'Not Provided',
 	        		'status' => 'Pending'
 	        	]);
 
 	        	$i = 0; 
 		        foreach($request->service_id as $key => $v){
 		            $createReservationServicePivot = ReservationService::create([
-		                'reservation_id' => $createHomeServiceReservation->id,
+		                'reservation_id' => $createOnSalonReservation->id,
 		                'service_id' => $request->service_id[$i],
 		            ]);
 		            $i++;

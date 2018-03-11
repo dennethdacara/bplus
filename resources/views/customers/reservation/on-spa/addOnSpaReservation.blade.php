@@ -71,15 +71,6 @@
 					<div class="row">
 
 						<div class="col-lg-6 col-md-6">
-							<br><label>Address:</label>
-							<textarea name="address" cols="30" rows="3" class="form-control">{{old('address')}}</textarea>
-
-							@if ($errors->has('address'))
-                                <strong>{{ $errors->first('address') }}</strong>
-                            @endif
-						</div>
-
-						<div class="col-lg-6 col-md-6">
 							<br><label>Hairstylist:</label>
 							<select name="employee_id" id="" class="form-control">
 								@foreach($employees as $employee)
