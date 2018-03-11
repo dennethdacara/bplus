@@ -21,7 +21,7 @@ class BillingController extends Controller
     		->join('users as employees', 'employees.id', 'billing.employee_id')
     		->join('users as cashiers', 'cashiers.id', 'billing.cashier_id')
     		->select('users.firstname as customer_firstname', 'employees.firstname as stylist_firstname',
-    				'cashiers.firstname as cashier_firstname', 'cashiers.lastname as cashier_lastname', 'billing.id as id', 'billing.status as status', 'billing.created_at as created_at', 'reservations.reservation_date', 'reservations.reservation_time')
+    				'cashiers.firstname as cashier_firstname', 'cashiers.lastname as cashier_lastname', 'billing.id as id', 'billing.status as status', 'billing.created_at as created_at', 'reservations.reservation_date', 'reservations.reservation_time', 'reservations.created_at')
     		->get();
 
     	$getServices = BillingService::join('services', 'services.id', 'billing_service.service_id')

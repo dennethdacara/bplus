@@ -20,6 +20,7 @@
 							<th>Total</th>
 							<th>Status</th>
 							<th>Date/Time Of Reservation</th>
+							<th>Date/Time Reserved</th>
 							<th>Action</th>
 						</tr>
 					</thead>
@@ -27,6 +28,7 @@
 						@foreach($billings as $billing)
 							@php
 								$reservation_date = date("M jS, Y", strtotime($billing->reservation_date)); 
+								$created_at = date("M jS, Y", strtotime($billing->created_at));
 							@endphp
 							<tr>
 								<td>{{$billing->id}}</td>
@@ -49,6 +51,7 @@
 								</td>
 								<td>{{$billing->status}}</td>
 								<td>{{$reservation_date}} <br> {{$billing->reservation_time}}</td>
+								<td>{{$created_at}}</td>
 								<td>
 									@if($billing->status != 'Paid')
 										<a href="{{ route('adminPayBilling', ['billing_id' => $billing->id]) }}" class="btn btn-md btn-primary">Pay</a>
