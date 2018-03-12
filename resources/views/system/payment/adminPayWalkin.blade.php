@@ -67,21 +67,31 @@
 							//Convert our percentage value into a decimal.
 	        				$percentageInDecimal = $vat->percentage / 100;
 	        				$totalVatPayable = $percentageInDecimal * $getTotalAmountDue[0]->total;
+
+	        				//vat inclusive
+	        				$vat1 = 1+($vat->percentage/100);
+							$vatIncl = $getTotalAmountDue[0]->total / $vat1;
+							$vat2 = $vatIncl + ($vatIncl * .12);
 						@endphp
 
 					<div class="col-lg-12">
 						<br>
-						<h3>Customer: {{$getCustomerDetails->firstname}} {{$getCustomerDetails->lastname}}</h3>
-						<h3>HairStylist: {{$getTotalAmountDue[0]->employee_firstname}} {{$getTotalAmountDue[0]->employee_lastname}} | Expertise: {{$getTotalAmountDue[0]->expertise}}</h3>
-						<h3>Amount Due: &#8369;{{$getTotalAmountDue[0]->total}}</h3>
-						<h3>
-							Vat (Excl): {{$vat->percentage}}% (&#8369;{{$totalVatPayable}})
-						</h3>
-						<h3>Service Fee: &#8369;{{$getTotalAmountDue[0]->service_fee}}</h3>
-						
-						<h3>Total Amount Due: <span style="color:red;">&#8369;{{$getTotalAmountDue[0]->total + $getTotalAmountDue[0]->service_fee + $totalVatPayable}}</span></h3>
+						<h4>Customer: {{$getCustomerDetails->firstname}} {{$getCustomerDetails->lastname}}</h4>
+						<h4>HairStylist: {{$getTotalAmountDue[0]->employee_firstname}} {{$getTotalAmountDue[0]->employee_lastname}} | Expertise: {{$getTotalAmountDue[0]->expertise}}</h4>
 
-						<input type="hidden" name="totalAmountDue" value="{{$getTotalAmountDue[0]->total + $getTotalAmountDue[0]->service_fee + $totalVatPayable}}">
+						<h4>Untaxed Amt: &#8369;{{ round($vatIncl) }}</h4>
+
+						<h4>Taxed Amt: &#8369;{{ $vat2 }} </h4>
+
+						<h4>Vat (Inclusive): {{$vat->percentage}}%)</h4>
+
+						<h4>Amount Due: &#8369;{{$getTotalAmountDue[0]->total}}</h4>
+						
+						<h4>Service Fee: &#8369;{{$getTotalAmountDue[0]->service_fee}}</h4>
+						
+						<h3>Total Amount Due: <span style="color:red;">&#8369;{{$getTotalAmountDue[0]->total + $getTotalAmountDue[0]->service_fee}}</span></h3>
+
+						<input type="hidden" name="totalAmountDue" value="{{$getTotalAmountDue[0]->total + $getTotalAmountDue[0]->service_fee}}">
 						<input type="hidden" name="employee_id" value="{{$getTotalAmountDue[0]->employee_id}}">
 
 					</div>

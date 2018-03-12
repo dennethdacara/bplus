@@ -62,19 +62,35 @@
 
 					@php 
 						//Convert our percentage value into a decimal.
-        				$percentageInDecimal = $vat->percentage / 100;
-        				$totalVatPayable = $percentageInDecimal * $getTotalAmountDue->total;
+        				//$percentageInDecimal = $vat->percentage / 100;
+        				//$totalVatPayable = $percentageInDecimal * $getTotalAmountDue->total;
 					@endphp
 
 					<div class="col-lg-12">
 						<br>
 						<h4>HairStylist: {{$getAllServices[0]->hairstylist_firstname}} {{$getAllServices[0]->hairstylist_lastname}} | Expertise: {{$getAllServices[0]->expertise}} </h4>
-						<h4>Amount Due: &#8369;{{$getTotalAmountDue->total}}</h4>
-						<h4>Vat (Excl): {{$vat->percentage}}% ({{$totalVatPayable}})</h4>
-						<h4>Service Fee: &#8369;{{$getAllServices[0]->service_fee}}</h4>
-						<h3>Total Amount Due: <span style="color:red;">&#8369;{{$getTotalAmountDue->total + $getAllServices[0]->service_fee + $totalVatPayable}}</span></h3>
 
-						<input type="hidden" name="totalAmountDue" value="{{$getTotalAmountDue->total + $getAllServices[0]->service_fee + $totalVatPayable}}">
+						@php
+							$vat1 = 1+($vat->percentage/100);
+							$vatIncl = $getTotalAmountDue->total / $vat1;
+							$vat2 = $vatIncl + ($vatIncl * .12);
+						@endphp
+
+						<h4>Untaxed Amt: &#8369;{{ round($vatIncl) }}</h4>
+
+						<h4>Taxed Amt: &#8369;{{ $vat2 }} </h4>
+
+						<h4>Vat (Inclusive): {{$vat->percentage}}%</h4>
+
+						<h4>Amount Due: &#8369;{{$getTotalAmountDue->total}}</h4>
+
+						<h4>Service Fee: &#8369;{{$getAllServices[0]->service_fee}}</h4>
+
+						<h3>Total Amount Due: 
+							<span style="color:red;">&#8369;{{$getTotalAmountDue->total + $getAllServices[0]->service_fee}}</span>
+						</h3>
+
+						<input type="hidden" name="totalAmountDue" value="{{$getTotalAmountDue->total + $getAllServices[0]->service_fee}}">
 						<input type="hidden" name="customer_id" value="{{$getAllServices[0]->customer_id}}">
 						<input type="hidden" name="billing_id" value="{{$getAllServices[0]->billing_id}}">
 						<input type="hidden" name="employee_id" value="{{$getAllServices[0]->employee_id}}">
