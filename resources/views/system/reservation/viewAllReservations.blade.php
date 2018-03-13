@@ -17,7 +17,7 @@
 							<th>Date</th>
 							<th>Reservation Time</th>
 							<th>Address</th>
-							<th>Hairstylist</th>
+							<th>Hairstylist/s</th>
 							<th>Services</th>
 							<th>Service Type</th>
 							<th>Status</th>
@@ -33,7 +33,14 @@
 								<td>{{$reservation->reservation_date}}</td>
 								<td>{{$reservation->reservation_time}}</td>
 								<td>{{$reservation->address}}</td>
-								<td>{{$reservation->hairstylist}}</td>
+								<td>
+									@foreach($employeeReservations as $employeeReservation)
+										@if($reservation->id == $employeeReservation->reservation_id)
+											{{$employeeReservation->firstname}} {{$employeeReservation->lastname}} 
+											({{$employeeReservation->expertise}}),
+										@endif
+									@endforeach
+								</td>
 								<td>
 									@foreach($getServices as $getService)
 										@if($reservation->id == $getService->reservation_id)

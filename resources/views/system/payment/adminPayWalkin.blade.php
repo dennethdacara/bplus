@@ -76,8 +76,13 @@
 
 					<div class="col-lg-12">
 						<br>
-						<h4>Customer: {{$getCustomerDetails->firstname}} {{$getCustomerDetails->lastname}}</h4>
-						<h4>HairStylist: {{$getTotalAmountDue[0]->employee_firstname}} {{$getTotalAmountDue[0]->employee_lastname}} | Expertise: {{$getTotalAmountDue[0]->expertise}}</h4>
+						<h4>Customer: {{ ucwords($getCustomerDetails->firstname) }} {{ ucwords($getCustomerDetails->lastname) }}</h4>
+						<h4>HairStylist/s:
+							@foreach($getAllEmployeeWalkin as $getAllEmployeeWalkin1)
+								<li>{{$getAllEmployeeWalkin1->firstname}} {{$getAllEmployeeWalkin1->lastname}} 
+									({{$getAllEmployeeWalkin1->expertise}})</li>
+							@endforeach
+						</h4>
 
 						<h4>Untaxed Amt: &#8369;{{ round($vatIncl) }}</h4>
 
@@ -87,12 +92,13 @@
 
 						<h4>Amount Due: &#8369;{{$getTotalAmountDue[0]->total}}</h4>
 						
-						<h4>Service Fee: &#8369;{{$getTotalAmountDue[0]->service_fee}}</h4>
+						<h4>Total Service Fee: &#8369;{{$sumEmployeeWalkinServiceFee->totalServiceFee}}</h4>
 						
-						<h3>Total Amount Due: <span style="color:red;">&#8369;{{$getTotalAmountDue[0]->total + $getTotalAmountDue[0]->service_fee}}</span></h3>
+						<h3>Total Amount Due: <span style="color:red;">&#8369;{{$getTotalAmountDue[0]->total + $sumEmployeeWalkinServiceFee->totalServiceFee}}</span></h3>
 
-						<input type="hidden" name="totalAmountDue" value="{{$getTotalAmountDue[0]->total + $getTotalAmountDue[0]->service_fee}}">
-						<input type="hidden" name="employee_id" value="{{$getTotalAmountDue[0]->employee_id}}">
+						<input type="hidden" name="totalAmountDue" value="{{$getTotalAmountDue[0]->total + $sumEmployeeWalkinServiceFee->totalServiceFee}}">
+
+						<!-- <input type="text" name="employee_id" value="$getTotalAmountDue[0]->employee_id}}"> -->
 
 					</div>
 		 			<div class="col-lg-6 col-md-6">

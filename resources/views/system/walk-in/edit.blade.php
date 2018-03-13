@@ -74,16 +74,16 @@
 
 						<div class="col-lg-6 col-md-6">
 							<br><label>Hair Stylist:</label>
-							<select name="user_id" class="form-control">
+							<select name="employee_id[]" class="selectpicker form-control" id="multiHairstylistEdit" multiple data-live-search="true" multiple data-selected-text-format="count > 1">
 								@foreach($hairstylists as $hairstylist)
 									<option value="{{$hairstylist->id}}"
-										@if($hairstylist->id == $walkin->user_id) selected @endif
+										{{in_array($hairstylist->id, $employee_walkin_pivot) ? 'selected' : ''}}
 										>{{$hairstylist->firstname}} | {{$hairstylist->expertise}}</option>
 								@endforeach
 							</select>
 
-							@if ($errors->has('user_id'))
-                                <strong>{{ $errors->first('user_id') }}</strong>
+							@if ($errors->has('employee_id'))
+                                <strong>{{ $errors->first('employee_id') }}</strong>
                             @endif
 						</div>
 

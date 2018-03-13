@@ -18,7 +18,8 @@ class CreateServicesTable extends Migration
             $table->string('name');
             $table->decimal('price', 10, 2);
             $table->integer('service_type_id');
-            $table->timestamps();
+            $table->integer('expertise_id');
+            $table->timestamps();   
         });
     }
 

@@ -15,6 +15,7 @@
 							<th>Service</th>
 							<th>Price</th>
 							<th>Service Type</th>
+							<th>Expertise Type</th>
 							<th>Date Added</th>
 							<th>Action</th>
 						</tr>
@@ -29,6 +30,7 @@
 							<td>{{$service->name}}</td>
 							<td>&#8369;{{$service->price}}</td>
 							<td>{{$service->service_type}}</td>
+							<td>{{$service->expertise}}</td>
 							<td>{{$created_at}}</td>
 							<td>
 								<form method="POST" action="{{ route('services.destroy', ['id' => $service->id]) }}">

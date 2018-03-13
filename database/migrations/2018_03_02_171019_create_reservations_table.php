@@ -18,7 +18,6 @@ class CreateReservationsTable extends Migration
             $table->integer('customer_id');
             $table->string('reservation_date');
             $table->string('reservation_time');
-            $table->integer('employee_id');
             $table->string('type');
             $table->text('address');
             $table->string('status');

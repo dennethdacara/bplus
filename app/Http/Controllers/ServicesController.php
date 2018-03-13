@@ -1,7 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 use Auth, Alert;
-use App\ServiceType;
+use App\ServiceType, App\Expertise;
 use App\User, App\Service;
 use Illuminate\Http\Request;
 
@@ -15,8 +15,10 @@ class ServicesController extends Controller
     public function index()
     {
         $services = Service::join('service_type', 'service_type.id', 'services.service_type_id')
-            ->select('services.*', 'service_type.name as service_type')
+            ->join('expertise', 'expertise.id', 'services.expertise_id')
+            ->select('services.*', 'service_type.name as service_type', 'expertise.name as expertise')
             ->get();
+
         return view ('system/services/index', compact('services'));
     }
 
@@ -24,13 +26,15 @@ class ServicesController extends Controller
     public function create()
     {
         $serviceTypes = ServiceType::all();
-        return view ('system/services/create', compact('serviceTypes'));
+        $expertise = Expertise::all();
+        return view ('system/services/create', compact('serviceTypes', 'expertise'));
     }
 
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required', 'price' => 'required', 'service_type_id' => 'required'
+            'name' => 'required', 'price' => 'required', 'service_type_id' => 'required',
+            'expertise_id' => 'required'
         ]);
 
         //check if service already exists
@@ -47,9 +51,10 @@ class ServicesController extends Controller
             'name' => $request->name,
             'price' => $request->price,
             'service_type_id' => $request->service_type_id,
+            'expertise_id' => $request->expertise_id
         ]);
 
-        Alert::success('Service has been Added!')->autoclose(1000);
+        Alert::success('Service has been Added!')->persistent("OK");
         return redirect()->route('services.index');
 
     }
@@ -64,14 +69,17 @@ class ServicesController extends Controller
     {
         $service = Service::findOrFail($id);
         $serviceTypes = ServiceType::all();
-        return view ('system/services/edit', compact('service', 'serviceTypes'));
+        $expertise = Expertise::all();
+        return view ('system/services/edit', compact('service', 'serviceTypes', 'expertise'));
     }
 
 
     public function update(Request $request, $id)
     {
+        
         $this->validate($request, [
-            'name' => 'required', 'price' => 'required', 'service_type_id' => 'required'
+            'name' => 'required', 'price' => 'required', 'service_type_id' => 'required',
+            'expertise_id' => 'required'
         ]);
 
         $service = Service::findOrFail($id);
@@ -79,6 +87,7 @@ class ServicesController extends Controller
         $service->name = $request->name;
         $service->price = $request->price;
         $service->service_type_id = $request->service_type_id;
+        $service->expertise_id = $request->expertise_id;
         $service->save();
 
         Alert::success('Service has been updated!')->autoclose(1000);

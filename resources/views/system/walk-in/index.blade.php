@@ -35,7 +35,14 @@
 									@endif
 								@endforeach
 							</td>
-							<td>{{$walkin->hairstylist}}</td>
+							<td>
+								@foreach($getAllWalkinEmployees as $getAllWalkinEmployee)
+									@if($getAllWalkinEmployee->walkin_id == $walkin->id)
+										{{$getAllWalkinEmployee->firstname}} {{$getAllWalkinEmployee->lastname}} 
+										({{$getAllWalkinEmployee->expertise}}),
+									@endif
+								@endforeach
+							</td>
 							
 							@php
 								$date_added = date("M jS, Y h:i a", strtotime($walkin->created_at)); 
@@ -66,7 +73,6 @@
 					</tbody>
     			</table>
 
-    				<center>{{ $walkins->links() }}</center>
 				</div>
     		</div>
   		</div>

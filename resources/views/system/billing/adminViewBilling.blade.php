@@ -14,7 +14,7 @@
 						<tr>
 							<th>#</th>
 							<th>Customer</th>
-							<th>Stylist</th>
+							<th>Stylist/s</th>
 							<th>Services</th>
 							<th>Cashier</th>
 							<th>Total</th>
@@ -32,8 +32,14 @@
 							@endphp
 							<tr>
 								<td>{{$billing->id}}</td>
-								<td>{{$billing->customer_firstname}}</td>
-								<td>{{$billing->stylist_firstname}}</td>
+								<td>{{$billing->customer_firstname}} {{$billing->customer_lastname}}</td>
+								<td>
+									@foreach($billingEmployees as $billingEmployee)
+										@if($billingEmployee->billing_id == $billing->id)
+											{{$billingEmployee->firstname}} {{$billingEmployee->lastname}},
+										@endif
+									@endforeach
+								</td>
 								<td>
 									@foreach($getServices as $getService)
 										@if($getService->billing_id == $billing->id)

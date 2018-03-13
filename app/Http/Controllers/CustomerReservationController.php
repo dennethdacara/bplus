@@ -1,11 +1,12 @@
 <?php
 namespace App\Http\Controllers;
-use App\User, Auth, Alert, DB;
 use App\Service;
 use App\Reservation;
 use App\ServiceType;
 use App\ReservationService;
+use App\EmployeeReservation;
 use Illuminate\Http\Request;
+use App\User, Auth, Alert, DB;
 use Illuminate\Support\Facades\Input;
 
 class CustomerReservationController extends Controller
@@ -17,17 +18,20 @@ class CustomerReservationController extends Controller
     
     public function viewAllReservations() {
         $reservations = Reservation::join('users', 'users.id', 'reservations.customer_id')
-            ->join('users as users1', 'users1.id', 'reservations.employee_id')
             ->leftjoin('users as users2', 'users2.id', 'reservations.processed_by')
-            ->select('reservations.*', 'users.firstname as customer_firstname', 'reservations.created_at as date_added', 'users.lastname as customer_lastname', 'users1.firstname as hairstylist', 
-                'users2.firstname as processedByFirstname', 'users2.lastname as processedByLastname')
+            ->select('reservations.*', 'users.firstname as customer_firstname', 'reservations.created_at as date_added', 'users.lastname as customer_lastname', 'users2.firstname as processedByFirstname', 'users2.lastname as processedByLastname')
             ->where('reservations.customer_id', Auth::user()->id)
+            ->get();
+
+        $employeeReservations = EmployeeReservation::join('users as employees', 'employees.id', 'employee_reservation.employee_id')
+            ->join('expertise', 'expertise.id', 'employees.expertise_id')
+            ->select('employee_reservation.*', 'employees.firstname', 'employees.lastname', 'expertise.name as expertise')
             ->get();
 
         $getServices = ReservationService::join('services', 'services.id', 'reservation_service.service_id')
             ->get();
 
-        return view ('customers/reservation/viewAllReservations', compact('reservations', 'getServices'));
+        return view ('customers/reservation/viewAllReservations', compact('reservations', 'getServices', 'employeeReservations'));
     }
 
     public function customerCancelReservation($reservation_id) {
@@ -59,7 +63,7 @@ class CustomerReservationController extends Controller
     		'employee_id' => 'required', 'service_id' => 'required'
     	]);
 
-    	$checkReservationConflict = Reservation::where('reservation_time', $request->reservation_time)
+    	/*$checkReservationConflict = Reservation::where('reservation_time', $request->reservation_time)
             ->where('reservation_date', $request->reservation_date)
             ->where('employee_id', $request->employee_id)
             ->first();
@@ -73,16 +77,25 @@ class CustomerReservationController extends Controller
         if($checkReservationConflict || $checkReservationConflict1) {
         	Alert::error('Home Service Reservation Has Conflict!')->persistent("OK");
 	        return redirect()->back()->withInput(Input::all());
-        } else { //IF THERE IS NO CONFLICT
+        } else { //IF THERE IS NO CONFLICT*/
         	$createHomeServiceReservation = Reservation::create([
         		'customer_id' => $request->customer_id,
         		'reservation_date' => $request->reservation_date,
         		'reservation_time' => $request->reservation_time,
-        		'employee_id' => $request->employee_id,
         		'type' => 'Home Service',
         		'address' => $request->address,
         		'status' => 'Pending'
         	]);
+        /*}*/
+
+        //Insert multiple hairstylist and reservation id to pivot
+        $i = 0; 
+        foreach($request->employee_id as $key => $v){
+            $createEmployeeReservation = EmployeeReservation::create([
+                'employee_id' => $request->employee_id[$i],
+                'reservation_id' => $createHomeServiceReservation->id
+            ]);
+            $i++;
         }
 
         $i = 0; 
@@ -116,7 +129,7 @@ class CustomerReservationController extends Controller
     		'reservation_date' => 'required', 'reservation_time' => 'required', 'employee_id' => 'required', 'service_id' => 'required'
     	]);
 
-    	$checkReservationConflict = Reservation::where('reservation_time', $request->reservation_time)
+    	/*$checkReservationConflict = Reservation::where('reservation_time', $request->reservation_time)
             ->where('reservation_date', $request->reservation_date)
             ->where('employee_id', $request->employee_id)->first();
 
@@ -128,16 +141,25 @@ class CustomerReservationController extends Controller
        	if($checkReservationConflict || $checkReservationConflict1) {
 	            Alert::error('On Salon Reservation Has Conflict!')->persistent("OK");
 	            return redirect()->back()->withInput(Input::all());
-	        } else { //IF THERE IS NO CONFLICT
+	        } else { //IF THERE IS NO CONFLICT*/
 	        	$createOnSalonReservation = Reservation::create([
 	        		'customer_id' => $request->customer_id,
 	        		'reservation_date' => $request->reservation_date,
 	        		'reservation_time' => $request->reservation_time,
-	        		'employee_id' => $request->employee_id,
 	        		'type' => 'On Salon',
 	        		'address' => 'Not Provided',
 	        		'status' => 'Pending'
 	        	]);
+
+                //Insert multiple hairstylist and reservation id to pivot
+                $i = 0; 
+                foreach($request->employee_id as $key => $v){
+                    $createEmployeeReservation = EmployeeReservation::create([
+                        'employee_id' => $request->employee_id[$i],
+                        'reservation_id' => $createOnSalonReservation->id
+                    ]);
+                    $i++;
+                }
 
 	        	$i = 0; 
 		        foreach($request->service_id as $key => $v){
@@ -146,7 +168,7 @@ class CustomerReservationController extends Controller
 		                'service_id' => $request->service_id[$i],
 		            ]);
 		            $i++;
-		        }
+		        /*}*/
 
 		        Alert::success('Customer On Salon Reservation Successful!')->persistent("OK");
     			return redirect()->back();

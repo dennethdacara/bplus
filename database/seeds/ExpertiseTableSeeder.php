@@ -19,20 +19,20 @@ class ExpertiseTableSeeder extends Seeder
                 'updated_at' => date('Y-m-d H:i:s'),
         	],
         	[
-        		'name' => 'Manicure',
+        		'name' => 'Manicure/Pedicure',
         		'service_fee' => 40,
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
-        	],
-        	[
-        		'name' => 'All Around',
-        		'service_fee' => 100,
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
         	],
             [
                 'name' => 'Foot Spa',
                 'service_fee' => 60,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ],
+            [
+                'name' => 'All Around',
+                'service_fee' => 100,
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
             ],

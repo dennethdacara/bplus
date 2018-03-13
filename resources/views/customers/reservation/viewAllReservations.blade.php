@@ -33,7 +33,14 @@
 								<td>{{$reservation->reservation_date}}</td>
 								<td>{{$reservation->reservation_time}}</td>
 								<td>{{$reservation->address}}</td>
-								<td>{{$reservation->hairstylist}}</td>
+								<td>
+									@foreach($employeeReservations as $employeeReservation)
+										@if($employeeReservation->reservation_id == $reservation->id)
+											{{$employeeReservation->firstname}} {{$employeeReservation->lastname}}
+											({{$employeeReservation->expertise}}),
+										@endif
+									@endforeach
+								</td>
 								<td>
 									@foreach($getServices as $getService)
 										@if($reservation->id == $getService->reservation_id)

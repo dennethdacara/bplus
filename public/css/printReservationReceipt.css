@@ -1,0 +1,28 @@
+#th-padding {
+    padding:0px;
+}
+
+@media print {
+  	@page {
+    	margin-top: -100;
+    	margin-bottom: 0;
+  	}
+  	
+  	body * {
+  	    visibility: hidden;
+  	}
+
+  	#divForPrinting, #divForPrinting * {
+  	    visibility: visible;
+  	}
+
+  	#printReservationReceiptBtn {
+  		visibility: hidden;
+  	}
+
+  	#divForPrinting {
+      	position: absolute;
+      	left: 200;
+      	top: 0;
+      	right: 200;
+    } 

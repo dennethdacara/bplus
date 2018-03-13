@@ -22,7 +22,7 @@
 							<th>Service Type</th>
 							<th>Status</th>
 							<th>Date Added</th>
-							<th>Action</th>
+							<!-- <th>Action</th> -->
 						</tr>
 					</thead>
 					<tbody>
@@ -33,7 +33,15 @@
 								<td>{{$reservation->reservation_date}}</td>
 								<td>{{$reservation->reservation_time}}</td>
 								<td>{{$reservation->address}}</td>
-								<td>{{$reservation->hairstylist}}</td>
+								<td>
+									@foreach($employeeReservations as $employeeReservation)
+										@if($employeeReservation->reservation_id == $reservation->id)
+											{{$employeeReservation->firstname}} {{$employeeReservation->lastname}}
+											({{$employeeReservation->expertise}}),
+										@endif
+									@endforeach
+								</td>
+
 								<td>
 									@foreach($getServices as $getService)
 										@if($reservation->id == $getService->reservation_id)
@@ -57,12 +65,12 @@
 									$date_added = date("M jS, Y h:i a", strtotime($reservation->date_added)); 
 								@endphp
 								<td>{{$date_added}}</td>
-								<td>
+								<!-- <td>
 									@if($reservation->status == 'Pending')
 										<a href="{{ route('employeeApproveReservation', ['reservation_id' => $reservation->id])}}" class="btn btn-md btn-primary" onclick="return confirm('Approve reservation?');">Approve</a>
 										<a href="{{ route('employeeCancelReservation', ['reservation_id' => $reservation->id])}}" class="btn btn-md btn-danger" onclick="return confirm('Cancel reservation?');">Cancel</a>
 									@endif
-								</td>
+								</td> -->
 							</tr>
 						@endforeach
 					</tbody>

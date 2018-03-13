@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateWalkinTable extends Migration
+class CreateEmployeeReservationTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,10 @@ class CreateWalkinTable extends Migration
      */
     public function up()
     {
-        Schema::create('walkin', function (Blueprint $table) {
+        Schema::create('employee_reservation', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('firstname');
-            $table->string('lastname');
-            $table->string('contact_no');
-            $table->string('email');
-            $table->string('walkin_time');
-            $table->string('status')->nullable();
+            $table->integer('reservation_id');
+            $table->integer('employee_id');
             $table->timestamps();
         });
     }
@@ -32,6 +28,6 @@ class CreateWalkinTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('walkin');
+        Schema::dropIfExists('employee_reservation');
     }
 }

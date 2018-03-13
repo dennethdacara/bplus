@@ -68,7 +68,13 @@
 
 					<div class="col-lg-12">
 						<br>
-						<h4>HairStylist: {{$getAllServices[0]->hairstylist_firstname}} {{$getAllServices[0]->hairstylist_lastname}} | Expertise: {{$getAllServices[0]->expertise}} </h4>
+
+						<h4>HairStylist/s:
+							@foreach($BillingEmployees as $BillingEmployee)
+								<li>{{$BillingEmployee->firstname}} {{$BillingEmployee->lastname}} 
+									({{$BillingEmployee->expertise}})</li>
+							@endforeach
+						</h4>
 
 						@php
 							$vat1 = 1+($vat->percentage/100);
@@ -84,16 +90,16 @@
 
 						<h4>Amount Due: &#8369;{{$getTotalAmountDue->total}}</h4>
 
-						<h4>Service Fee: &#8369;{{$getAllServices[0]->service_fee}}</h4>
+						<h4>Total Service Fee: &#8369;{{$sumBillingEmployeeServiceFee->totalServiceFee}}</h4>
 
 						<h3>Total Amount Due: 
-							<span style="color:red;">&#8369;{{$getTotalAmountDue->total + $getAllServices[0]->service_fee}}</span>
+							<span style="color:red;">&#8369;{{$getTotalAmountDue->total + $sumBillingEmployeeServiceFee->totalServiceFee}}</span>
 						</h3>
 
-						<input type="hidden" name="totalAmountDue" value="{{$getTotalAmountDue->total + $getAllServices[0]->service_fee}}">
+						<input type="hidden" name="totalAmountDue" value="{{$getTotalAmountDue->total + $sumBillingEmployeeServiceFee->totalServiceFee}}">
 						<input type="hidden" name="customer_id" value="{{$getAllServices[0]->customer_id}}">
 						<input type="hidden" name="billing_id" value="{{$getAllServices[0]->billing_id}}">
-						<input type="hidden" name="employee_id" value="{{$getAllServices[0]->employee_id}}">
+						<!-- <input type="hidden" name="employee_id" value="$getAllServices[0]->employee_id}}"> -->
 					</div>
 		 			<div class="col-lg-6 col-md-6">
 							<br><h4>Enter Amount:</h4>

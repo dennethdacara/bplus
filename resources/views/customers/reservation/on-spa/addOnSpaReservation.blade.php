@@ -71,8 +71,8 @@
 					<div class="row">
 
 						<div class="col-lg-6 col-md-6">
-							<br><label>Hairstylist:</label>
-							<select name="employee_id" id="" class="form-control">
+							<br><label>Hair Stylist:</label>
+							<select name="employee_id[]" class="selectpicker form-control" id="multiHairstylist" multiple data-live-search="true" multiple data-selected-text-format="count > 1">
 								@foreach($employees as $employee)
 									<option value="{{$employee->id}}">{{$employee->firstname}} {{$employee->lastname}} | Expertise: {{$employee->expertise}}</option>
 								@endforeach

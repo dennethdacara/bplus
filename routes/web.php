@@ -20,6 +20,7 @@ route::group(['middleware' => 'auth'], function() {
 
 	//Admin
 	route::resource('users', 'UsersController'); //USERS
+	route::resource('roles', 'RolesController'); //ROLES
 	route::resource('services', 'ServicesController'); //SERVICES
 	route::resource('service-type', 'ServiceTypeController'); //SERVICE TYPES
 	route::resource('employees', 'EmployeesController'); //EMPLOYEES
@@ -43,7 +44,6 @@ route::group(['middleware' => 'auth'], function() {
 
 	route::post('admin/vat/settings', 'VatController@updateVatSettings')
 	->name('updateVatSettings');
-
 
 	//walkin pay
 	route::get('walk-in/pay/{walkin_id}','WalkinController@walkinPay')->name('walkinPay');
@@ -110,4 +110,11 @@ route::group(['middleware' => 'auth'], function() {
 	//commissions
 	route::get('employee/commissions', 'EmployeeCommissionsController@viewAllCommissions')
 		->name('employeeViewAllCommissions');
+
+	//RECEIPTS
+	//WALK-IN
+	route::get('walkin/receipt/{walkin_id}/{amount_paid}/{change}', 'ReceiptController@viewWalkinReceipt')->name('viewWalkinReceipt');
+
+	//RESERVATION
+	route::get('reservation/receipt/{billing_id}/{amount_paid}/{change}', 'ReceiptController@viewReservationReceipt')->name('viewReservationReceipt');
 });

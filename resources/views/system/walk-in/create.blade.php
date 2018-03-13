@@ -71,14 +71,14 @@
 
 						<div class="col-lg-6 col-md-6">
 							<br><label>Hair Stylist:</label>
-							<select name="user_id" class="form-control">
+							<select name="employee_id[]" class="selectpicker form-control" id="multiHairstylist" multiple data-live-search="true" multiple data-selected-text-format="count > 1">
 								@foreach($hairstylists as $hairstylist)
 									<option value="{{$hairstylist->id}}">{{$hairstylist->firstname}} | Expertise: {{$hairstylist->expertise}}</option>
 								@endforeach
 							</select>
 
-							@if ($errors->has('user_id'))
-                                <strong>{{ $errors->first('user_id') }}</strong>
+							@if ($errors->has('employee_id'))
+                                <strong>{{ $errors->first('employee_id') }}</strong>
                             @endif
 						</div>
 
@@ -129,13 +129,11 @@
 							<ul class="checkboxes1" style="columns: 4 8em;">
 	                        @foreach($services as $service)
 	                        	@if($service->service_type_id == $service_type->id)
-	                        	
 	                        		<label>
 		                        		<input type="checkbox" name="service_id[]" value="{{$service->id}}" style="" 
 		                        		@if(is_array(old('service_id')) && in_array($service->id, old('service_id'))) checked @endif />
 		                        		{{$service->name}} (&#8369;{{$service->price}})
 	                        		</label>
-	                        	
 	                        	@endif
 	                        @endforeach 
 	                        </ul>

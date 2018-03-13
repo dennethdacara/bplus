@@ -65,6 +65,7 @@
                         <li><a class="" href="{{ route('expertise.index') }}">Expertise</a></li>
                         <li><a class="" href="{{ route('service-type.index') }}">Service Type</a></li>
                         <li><a class="" href="{{ route('services.index') }}">Services</a></li>
+                        <li><a class="" href="{{ route('roles.index') }}">Roles</a></li>
                     </ul>
                 </li>
 

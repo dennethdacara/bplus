@@ -1,11 +1,12 @@
 <?php
 namespace App\Http\Controllers;
 use App\User;
-use Auth, DB, Alert;
 use App\Billing;
 use App\Reservation;
+use Auth, DB, Alert;
 use App\BillingService;
 use App\ReservationService;
+use App\EmployeeReservation;
 use Illuminate\Http\Request;
 
 class EmployeeReservationsController extends Controller
@@ -17,18 +18,22 @@ class EmployeeReservationsController extends Controller
     
     public function viewAllReservations() {
     	$reservations = Reservation::join('users', 'users.id', 'reservations.customer_id')
-			->join('users as users1', 'users1.id', 'reservations.employee_id')
 			->leftjoin('users as users2', 'users2.id', 'reservations.processed_by')
-			->select('reservations.*', 'users.firstname as customer_firstname', 'reservations.created_at as date_added', 'users.lastname as customer_lastname', 'users1.firstname as hairstylist', 
-				'users2.firstname as processedByFirstname', 'users2.lastname as processedByLastname')
-			->where('users1.id', Auth::user()->id)
+            ->join('employee_reservation', 'employee_reservation.reservation_id', 'reservations.id')
+			->select('reservations.*', 'users.firstname as customer_firstname', 'reservations.created_at as date_added', 'users.lastname as customer_lastname', 'users2.firstname as processedByFirstname', 'users2.lastname as processedByLastname')
+			->where('employee_reservation.employee_id', Auth::user()->id)
 			->get();
+
+        $employeeReservations = EmployeeReservation::join('users as employees', 'employees.id', 'employee_reservation.employee_id')
+            ->join('expertise', 'expertise.id', 'employees.expertise_id')
+            ->select('employee_reservation.*', 'employees.firstname', 'employees.lastname', 'expertise.name as expertise')
+            ->get();
 
 		$getServices = ReservationService::join('services', 'services.id', 'reservation_service.service_id')
 			->get();
 
 		return view ('employees/reservation/viewAllReservations', 
-			compact('reservations', 'getServices'));
+			compact('reservations', 'getServices', 'employeeReservations'));
     }
 
     public function employeeApproveReservation($reservation_id) {

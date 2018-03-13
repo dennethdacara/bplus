@@ -12,6 +12,9 @@
     <link href="{{ asset('template/css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('template/css/footer.css') }}" rel="stylesheet">
     <link href="{{ asset('template/css/font-awesome.min.css') }}" rel="stylesheet">
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css" rel="stylesheet">
+    
 
     <!-- JQuery DataTable Css -->
     <link href="{{ asset('template/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css') }}" 
@@ -67,6 +70,8 @@
     <!-- Air DatePicker -->
     <script src="{{ asset('air-datepicker/dist/js/datepicker.min.js') }}"></script>
     <script src="{{ asset('air-datepicker/dist/js/i18n/datepicker.en.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
+    
     
     <!-- -->
    <!--  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
@@ -107,6 +112,12 @@
             "order": [[ 0, "desc" ]] // column index, order ex. descending, ascending
         });
 
+        $('#roles-table').dataTable( {
+            "pageLength": 5,
+            "aLengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+            "order": [[ 2, "desc" ]] // column index, order ex. descending, ascending
+        });
+
         $('#viewAllWalkin-table').dataTable( {
             "pageLength": 5,
             "aLengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
@@ -128,7 +139,7 @@
         $('#adminViewAllBilling-table').dataTable( {
             "pageLength": 5,
             "aLengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
-            "order": [[ 7, "desc" ]] // column index, order ex. descending, ascending
+            "order": [[ 0, "desc" ]] // column index, order ex. descending, ascending
         });
 
         $('#adminViewAllPayments-table').dataTable( {
@@ -189,7 +200,7 @@
         $('#employeeViewAllReservations-table').dataTable( {
             "pageLength": 5,
             "aLengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
-            "order": [[ 9, "desc" ]] // column index, order ex. descending, ascending
+            "order": [[ 8, "desc" ]] // column index, order ex. descending, ascending
         });
 
         $('#employeeViewAllCommissions-table').dataTable( {
@@ -227,6 +238,22 @@
                 document.getElementById("employee_salary").required = false;
                 document.getElementById("expertise_id").required = false;
             }
+        });
+    </script>
+
+    <script type="text/javascript">
+        $('#printWalkinReceiptBtn').click(function() {
+            var current_time = new Date().toLocaleTimeString();
+            var timestamp = new Date().toJSON().slice(0,10);
+            document.title = 'BeautyPlusSalon-Receipt-'+timestamp+' '+current_time+'.pdf';
+            window.print();
+        });
+
+        $('#printReservationReceiptBtn').click(function() {
+            var current_time = new Date().toLocaleTimeString();
+            var timestamp = new Date().toJSON().slice(0,10);
+            document.title = 'BeautyPlusSalon-Receipt-'+timestamp+' '+current_time+'.pdf';
+            window.print();
         });
     </script>
 </body>

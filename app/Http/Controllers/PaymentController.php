@@ -3,6 +3,8 @@ namespace App\Http\Controllers;
 use App\Vat;
 use Auth, DB, Alert;
 use App\WalkinPayment;
+use App\BillingEmployee;
+use App\EmployeeReservation;
 use Illuminate\Http\Request;
 use App\CommissionEmployeeServices;
 use Illuminate\Support\Facades\Input;
@@ -29,21 +31,29 @@ class PaymentController extends Controller
 
     	$getAllServices = BillingService::join('services', 'services.id', 'billing_service.service_id')
     		->join('billing', 'billing.id', 'billing_service.billing_id')
-    		->join('users as employees', 'employees.id', 'billing.employee_id')
-            ->join('expertise', 'employees.expertise_id', 'expertise.id')
     		->join('users as customers', 'customers.id', 'billing.customer_id')
-    		->select('services.name as service_name', 'services.price as price', 'billing.id as billing_id',
-    				'billing_service.created_at as created_at', 'employees.id as employee_id',
-    				'employees.firstname as hairstylist_firstname', 'employees.lastname as hairstylist_lastname',
-    				'customers.id as customer_id', 'services.id as id', 'customers.firstname as customer_firstname', 'customers.lastname as customer_lastname', 'expertise.service_fee as service_fee',
-                    'expertise.name as expertise')
+    		->select('services.name as service_name', 'services.price', 'billing.id as billing_id',
+    				'billing_service.created_at as created_at', 'customers.id as customer_id', 'services.id as id', 
+                    'customers.firstname as customer_firstname', 'customers.lastname as customer_lastname')
     		->where('billing_service.billing_id', $billing_id)
     		->get();
 
         $vat = Vat::first();
 
+        $BillingEmployees = BillingEmployee::join('users as employees', 'employees.id', 'billing_employee.employee_id')
+            ->join('expertise', 'expertise.id', 'employees.expertise_id')
+            ->select('billing_employee.*', 'employees.lastname', 'employees.firstname', 'expertise.name as expertise')
+            ->where('billing_employee.billing_id', $billing_id)
+            ->get();
+
+        $sumBillingEmployeeServiceFee = BillingEmployee::join('users as employees', 'employees.id', 'billing_employee.employee_id')
+            ->join('expertise', 'expertise.id', 'employees.expertise_id')
+            ->select(DB::raw('SUM(expertise.service_fee) as totalServiceFee'))
+            ->where('billing_employee.billing_id', $billing_id)
+            ->first();
+
     	return view ('system/payment/adminPayBilling', 
-    		compact('getTotalAmountDue', 'getAllServices', 'vat'));
+    		compact('getTotalAmountDue', 'getAllServices', 'vat', 'BillingEmployees', 'sumBillingEmployeeServiceFee'));
     }
 
     public function adminPayBillingStore(Request $request) {
@@ -84,7 +94,7 @@ class PaymentController extends Controller
         $percentageInDecimal = $percentage / 100;
         $totalEmployeeCommission = $percentageInDecimal * $request->amount_paid;
 
-        $insertEmployeeCommission = Commission::create([
+        /*$insertEmployeeCommission = Commission::create([
             'employee_id' => $request->employee_id,
             'commission' => $totalEmployeeCommission
         ]);
@@ -112,10 +122,11 @@ class PaymentController extends Controller
                 'employee_id' => $employee_id1, 
                 'service_id' => $service_id[$i]
             ]);
-        }
+        }*/
 
         Alert::success('Payment Successful! <br> Total Amount:&#8369;'.$request->totalAmountDue.'<br> Amount Paid:&#8369;'.$request->amount_paid.'<br>Change:&#8369;'.$change.'')->html()->persistent("OK");
-            return redirect()->route('adminViewBilling');
+
+            return redirect()->route('viewReservationReceipt', ['billing_id' => $request->billing_id, 'amount_paid' => $request->amount_paid, 'change' => $change]);
 
     }
 }
