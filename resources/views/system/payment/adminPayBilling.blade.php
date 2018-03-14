@@ -97,6 +97,9 @@
 						</h3>
 
 						<input type="hidden" name="totalAmountDue" value="{{$getTotalAmountDue->total + $sumBillingEmployeeServiceFee->totalServiceFee}}">
+
+						<input type="hidden" name="totalServiceFee1" value="{{$sumBillingEmployeeServiceFee->totalServiceFee}}">
+						
 						<input type="hidden" name="customer_id" value="{{$getAllServices[0]->customer_id}}">
 						<input type="hidden" name="billing_id" value="{{$getAllServices[0]->billing_id}}">
 						<!-- <input type="hidden" name="employee_id" value="$getAllServices[0]->employee_id}}"> -->

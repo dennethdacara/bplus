@@ -1,9 +1,10 @@
 <?php
 namespace App\Http\Controllers;
 use App\Expertise;
+use App\CommissionService;
+use App\CommissionEmployee;
 use Illuminate\Http\Request;
 use Auth, Alert, DB, App\Vat;
-use App\CommissionEmployeeServices;
 use Illuminate\Support\Facades\Input;
 use App\WalkinPayment, App\EmployeeWalkin;
 use App\BillingService, App\CommissionSetting;
@@ -171,18 +172,34 @@ class WalkinController extends Controller
             'change' => $change
         ]);
 
+        $getEmployeeWalkin = EmployeeWalkin::where('walkin_id', $request->walkin_id)->get();
+        $employeeCount = count($getEmployeeWalkin);
+
         //INSERT HAIRSTYLIST/EMPLOYEE COMMISSION
         $getDefaultCommissionPercentage = CommissionSetting::first();
         $percentage = $getDefaultCommissionPercentage->percentage;
 
         //Convert our percentage value into a decimal.
-        $percentageInDecimal = $percentage / 100;
-        $totalEmployeeCommission = $percentageInDecimal * $request->amount_paid;
+        $finalTotalAmountDue = $request->totalAmountDue - $request->totalServiceFee1;
 
-        /*$insertEmployeeCommission = Commission::create([
-            'employee_id' => $request->employee_id,
+        $percentageInDecimal = $percentage / 100;
+        $totalEmployeeCommission = $percentageInDecimal * ($finalTotalAmountDue / $employeeCount);
+
+        $insertCommission = Commission::create([
             'commission' => $totalEmployeeCommission
-        ]);*/
+        ]);
+
+        foreach($getEmployeeWalkin as $getEmployeeWalkin1) {
+            $commission_id[] = $insertCommission->id;
+            $employee_id[] = $getEmployeeWalkin1->employee_id;
+        }
+
+        for($i=0;$i<count($employee_id);$i++){
+            CommissionEmployee::create([
+                'commission_id' => $commission_id[$i],
+                'employee_id'   => $employee_id[$i],
+            ]);
+        }
 
         //display list of availed walkin services
         $getAllWalkinServices = ServiceWalkin::join('services', 'services.id', 'service_walkin.service_id')
@@ -191,20 +208,16 @@ class WalkinController extends Controller
             ->where('service_walkin.walkin_id', $request->walkin_id)
             ->get();
 
-        /*$employee_id1 = $request->employee_id; // for commissions pivot*/
-        /*$commission_id = $insertEmployeeCommission->id; // for commissions pivot
-
         foreach($getAllWalkinServices as $getAllWalkinService){
             $service_id[] = $getAllWalkinService->service_id;
         }
 
         for($i=0;$i<count($service_id);$i++){
-            CommissionEmployeeServices::create([
-                'commission_id' => $commission_id, 
-                'employee_id' => $employee_id1, 
+            CommissionService::create([
+                'commission_id' => $insertCommission->id, 
                 'service_id' => $service_id[$i]
             ]);
-        }*/
+        }
 
         //IF AMOUNT PAID IS LESSER THAN TOTAL AMOUNT TO BE PAID (MAY SUKLI)
         if($request->amount_paid >= $request->totalAmountDue) {

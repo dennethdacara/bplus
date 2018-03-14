@@ -181,7 +181,7 @@
         $('#adminViewEmployeeCommissions-table').dataTable( {
             "pageLength": 5,
             "aLengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
-            "order": [[ 6, "desc" ]] // column index, order ex. descending, ascending
+            "order": [[ 0, "desc" ]] // column index, order ex. descending, ascending
         });
 
         $('#adminViewAllExpertise-table').dataTable( {
@@ -206,7 +206,7 @@
         $('#employeeViewAllCommissions-table').dataTable( {
             "pageLength": 5,
             "aLengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
-            "order": [[ 5, "desc" ]] // column index, order ex. descending, ascending
+            "order": [[ 0, "desc" ]] // column index, order ex. descending, ascending
         });
 
         //Customer
@@ -256,5 +256,6 @@
             window.print();
         });
     </script>
+
 </body>
 </html>

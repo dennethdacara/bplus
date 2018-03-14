@@ -1,14 +1,12 @@
 <?php
 namespace App\Http\Controllers;
-use App\Vat;
-use Auth, DB, Alert;
-use App\WalkinPayment;
-use App\BillingEmployee;
 use App\EmployeeReservation;
 use Illuminate\Http\Request;
-use App\CommissionEmployeeServices;
+use Auth, DB, Alert, App\Vat;
+use App\CommissionEmployee, App\CommissionService;
 use Illuminate\Support\Facades\Input;
 use App\Commission, App\BillingService;
+use App\WalkinPayment, App\BillingEmployee;
 use App\User, App\Billing, App\Payment, App\CommissionSetting;
 
 class PaymentController extends Controller
@@ -86,43 +84,50 @@ class PaymentController extends Controller
     	$updateBillingStatus->status = 'Paid';
     	$updateBillingStatus->save();
 
+        $getBillingEmployee = BillingEmployee::where('billing_id', $request->billing_id)->get();
+        $employeeCount = count($getBillingEmployee);
+
         //INSERT HAIRSTYLIST/EMPLOYEE COMMISSION
         $getDefaultCommissionPercentage = CommissionSetting::first();
         $percentage = $getDefaultCommissionPercentage->percentage;
 
         //Convert our percentage value into a decimal.
+        $finalTotalAmountDue = $request->totalAmountDue - $request->totalServiceFee1;
         $percentageInDecimal = $percentage / 100;
-        $totalEmployeeCommission = $percentageInDecimal * $request->amount_paid;
+        $totalEmployeeCommission = $percentageInDecimal * ($finalTotalAmountDue / $employeeCount);
 
-        /*$insertEmployeeCommission = Commission::create([
-            'employee_id' => $request->employee_id,
+        $insertCommission = Commission::create([
             'commission' => $totalEmployeeCommission
         ]);
 
+        foreach($getBillingEmployee as $getBillingEmployee1) {
+            $commission_id[] = $insertCommission->id;
+            $employee_id[] = $getBillingEmployee1->employee_id;
+        }
+
+        for($i=0;$i<count($employee_id);$i++){
+            CommissionEmployee::create([
+                'commission_id' => $commission_id[$i],
+                'employee_id'   => $employee_id[$i],
+            ]);
+        }
+
         $getAllServices = BillingService::join('services', 'services.id', 'billing_service.service_id')
-            ->join('billing', 'billing.id', 'billing_service.billing_id')
-            ->join('users as employees', 'employees.id', 'billing.employee_id')
-            ->join('expertise', 'employees.expertise_id', 'expertise.id')
-            ->join('users as customers', 'customers.id', 'billing.customer_id')
             ->select('services.id as service_id', 'services.name as service_name', 
-                    'services.price as price', 'billing.id as billing_id')
+                    'services.price as price')
             ->where('billing_service.billing_id', $request->billing_id)
             ->get();
-
-        $employee_id1 = $request->employee_id; // for commissions pivot
-        $commission_id = $insertEmployeeCommission->id; // for commissions pivot
 
         foreach($getAllServices as $getAllServices1){
             $service_id[] = $getAllServices1->service_id;
         }
 
         for($i=0;$i<count($service_id);$i++){
-            CommissionEmployeeServices::create([
-                'commission_id' => $commission_id, 
-                'employee_id' => $employee_id1, 
+            CommissionService::create([
+                'commission_id' => $insertCommission->id, 
                 'service_id' => $service_id[$i]
             ]);
-        }*/
+        }
 
         Alert::success('Payment Successful! <br> Total Amount:&#8369;'.$request->totalAmountDue.'<br> Amount Paid:&#8369;'.$request->amount_paid.'<br>Change:&#8369;'.$change.'')->html()->persistent("OK");
 

@@ -98,6 +98,8 @@
 
 						<input type="hidden" name="totalAmountDue" value="{{$getTotalAmountDue[0]->total + $sumEmployeeWalkinServiceFee->totalServiceFee}}">
 
+						<input type="hidden" name="totalServiceFee1" value="{{$sumEmployeeWalkinServiceFee->totalServiceFee}}">
+
 						<!-- <input type="text" name="employee_id" value="$getTotalAmountDue[0]->employee_id}}"> -->
 
 					</div>

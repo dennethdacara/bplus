@@ -71,9 +71,9 @@
 
 						<div class="col-lg-6 col-md-6">
 							<br><label>Hair Stylist:</label>
-							<select name="employee_id[]" class="selectpicker form-control" id="multiHairstylist" multiple data-live-search="true" multiple data-selected-text-format="count > 1">
+							<select name="employee_id[]" id="selectWalkinEmpId" class="selectpicker form-control" id="multiHairstylist" multiple data-live-search="true" multiple data-selected-text-format="count > 1">
 								@foreach($hairstylists as $hairstylist)
-									<option value="{{$hairstylist->id}}">{{$hairstylist->firstname}} | Expertise: {{$hairstylist->expertise}}</option>
+									<option value="{{$hairstylist->id}}" id="{{$hairstylist->expertise}}">{{$hairstylist->firstname}} | Expertise: {{$hairstylist->expertise}}</option>
 								@endforeach
 							</select>
 
@@ -126,18 +126,20 @@
 						<br><h3>Services :</h3>
 							<!-- <br><h3>{$service_type->name}}</h3><br> -->
 							@foreach($expertise as $expertise1)
-								<h3>{{$expertise1->name}}</h3>
-								<ul class="checkboxes1" style="columns: 4 8em;">
-			                        @foreach($services as $service)
-		                        		@if($service->expertise_id == $expertise1->id)
-		                        		<label>
-			                        		<input type="checkbox" name="service_id[]" value="{{$service->id}}" style="" 
-			                        		@if(is_array(old('service_id')) && in_array($service->id, old('service_id'))) checked @endif />
-			                        		{{$service->name}} (&#8369;{{$service->price}})
-		                        		</label>
-		                        		@endif
-			                        @endforeach 
-			                    </ul>
+								<div id="expertise{{$expertise1->id}}">
+									<h3>{{$expertise1->name}}</h3>
+									<ul class="checkboxes1" style="columns: 4 8em;">
+				                        @foreach($services as $service)
+			                        		@if($service->expertise_id == $expertise1->id)
+			                        		<label>
+				                        		<input type="checkbox" name="service_id[]" value="{{$service->id}}" style="" 
+				                        		@if(is_array(old('service_id')) && in_array($service->id, old('service_id'))) checked @endif />
+				                        		{{$service->name}} (&#8369;{{$service->price}})
+			                        		</label>
+			                        		@endif
+				                        @endforeach 
+				                    </ul>
+			                    </div>
 							@endforeach
 							
 					</div>

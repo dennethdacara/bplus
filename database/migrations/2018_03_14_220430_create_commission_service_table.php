@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCommissionEmployeeServicesTable extends Migration
+class CreateCommissionServiceTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class CreateCommissionEmployeeServicesTable extends Migration
      */
     public function up()
     {
-        Schema::create('commission_employee_services', function (Blueprint $table) {
+        Schema::create('commission_service', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('commission_id');
-            $table->integer('employee_id');
             $table->integer('service_id');
             $table->timestamps();
         });
@@ -29,6 +28,6 @@ class CreateCommissionEmployeeServicesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('commission_employee_services');
+        Schema::dropIfExists('commission_service');
     }
 }

@@ -12,10 +12,10 @@
 					<thead>
 						<tr>
 							<th>#</th>
-							<th>Services Provided</th>
-							<th>Total Amount</th>
+							<th>Services Provided/Involved</th>
+							<!-- <th>Total Amount</th> -->
 							<th>Commission</th>
-							<th>Expertise</th>
+							<!-- <th>Expertise</th> -->
 							<th>Date Added</th>
 						</tr>
 					</thead>
@@ -33,20 +33,20 @@
 										@endif
 									@endforeach
 								</td>
-								<td>
-									@foreach($getTotalAmountServices as $getTotalAmountService)
-										@php 
+								<!-- <td>
+									foreach($getTotalAmountServices as $getTotalAmountService)
+										php 
 											$finalTotal = $getTotalAmountService->total + $myCommission->service_fee;
-										@endphp
-
-										@if($getTotalAmountService->commission_id == $myCommission->id)
-											&#8369;{{$getTotalAmountService->total}}(services total) + &#8369;{{$myCommission->service_fee}}(service fee) = &#8369;{{$finalTotal}}(total amount)
-										@endif
-
-									@endforeach
-								</td>
+										endphp
+								
+										if($getTotalAmountService->commission_id == $myCommission->id)
+											&#8369;$getTotalAmountService->total}}(services total) + &#8369;$myCommission->service_fee}}(service fee) = &#8369;$finalTotal}}(total amount)
+										endif
+								
+									endforeach
+								</td> -->
 								<td>{{$myCommission->commission}} ({{$percentage}}% of total amount)</td>
-								<td>{{$myCommission->expertise}}</td>
+								<!-- <td>$myCommission->expertise}}</td> -->
 								<td>{{$created_at}}</td>
 							</tr>
 						@endforeach
