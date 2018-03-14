@@ -88,7 +88,7 @@
 
 						<h4>Taxed Amt: &#8369;{{ $vat2 }} </h4>
 
-						<h4>Vat (Inclusive): {{$vat->percentage}}%)</h4>
+						<h4>Vat (Inclusive): {{$vat->percentage}}%</h4>
 
 						<h4>Amount Due: &#8369;{{$getTotalAmountDue[0]->total}}</h4>
 						
