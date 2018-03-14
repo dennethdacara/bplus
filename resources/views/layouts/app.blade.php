@@ -209,6 +209,12 @@
             "order": [[ 0, "desc" ]] // column index, order ex. descending, ascending
         });
 
+        $('#employeeViewAllInfractions-table').dataTable( {
+            "pageLength": 5,
+            "aLengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+            "order": [[ 0, "desc" ]] // column index, order ex. descending, ascending
+        });
+
         //Customer
         $('#customerViewAllReservations-table').dataTable( {
             "pageLength": 5,

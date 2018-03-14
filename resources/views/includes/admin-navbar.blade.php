@@ -49,6 +49,7 @@
                         </li>
                         <li><a href="{{ route('viewAllCommissions') }}">EMPLOYEE COMMISSIONS</a></li>
                         <li><a href="{{ route('salary.index') }}">EMPLOYEE SALARY</a></li>
+                        <li><a href="{{ route('viewEmployeeInfractions') }}">EMPLOYEE PAYROLL</a></li>
                     </ul>
                 </li>
 
