@@ -1,13 +1,11 @@
 <?php
-
 namespace App\Http\Controllers;
-use App\Vat;
-use Auth, Alert, DB;
-use App\WalkinPayment;
-use App\EmployeeWalkin;
+use App\Expertise;
 use Illuminate\Http\Request;
+use Auth, Alert, DB, App\Vat;
 use App\CommissionEmployeeServices;
 use Illuminate\Support\Facades\Input;
+use App\WalkinPayment, App\EmployeeWalkin;
 use App\BillingService, App\CommissionSetting;
 use App\User, App\Walkin, App\Payment, App\Service;
 use App\Commission, App\ServiceType, App\ServiceWalkin;
@@ -43,7 +41,8 @@ class WalkinController extends Controller
 
         $service_types = ServiceType::all();
         $services = Service::all();
-        return view ('system/walk-in/create', compact('hairstylists', 'service_types', 'services'));
+        $expertise = Expertise::all();
+        return view ('system/walk-in/create', compact('hairstylists', 'service_types', 'services', 'expertise'));
     }
 
     public function store(Request $request)
@@ -60,9 +59,9 @@ class WalkinController extends Controller
         /*$checkExistingWalkin = Walkin::where('user_id', $request->user_id) //employee_id
             ->where('walkin_time', $request->walkin_time)
             ->where(DB::raw("(DATE_FORMAT(created_at,'%Y-%m-%d'))"), '=', $current_day)
-            ->where('status', 'Pending')->first();*/
+            ->where('status', 'Pending')->first();
             
-        /*if($checkExistingWalkin) {
+        if($checkExistingWalkin) {
             Alert::error('Walk-in has conflict!')->persistent("OK");
             return redirect()->back()->withInput(Input::all());
         }*/
@@ -172,7 +171,7 @@ class WalkinController extends Controller
             'change' => $change
         ]);
 
-        /*//INSERT HAIRSTYLIST/EMPLOYEE COMMISSION
+        //INSERT HAIRSTYLIST/EMPLOYEE COMMISSION
         $getDefaultCommissionPercentage = CommissionSetting::first();
         $percentage = $getDefaultCommissionPercentage->percentage;
 
@@ -180,7 +179,7 @@ class WalkinController extends Controller
         $percentageInDecimal = $percentage / 100;
         $totalEmployeeCommission = $percentageInDecimal * $request->amount_paid;
 
-        $insertEmployeeCommission = Commission::create([
+        /*$insertEmployeeCommission = Commission::create([
             'employee_id' => $request->employee_id,
             'commission' => $totalEmployeeCommission
         ]);*/
