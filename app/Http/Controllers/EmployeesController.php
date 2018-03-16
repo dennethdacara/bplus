@@ -80,7 +80,7 @@ class EmployeesController extends Controller
     public function edit($id)
     {
         $employee = User::join('salary', 'salary.employee_id', 'users.id')
-            ->select('users.id', 'users.*', 'salary.employee_salary')
+            ->select('users.*', 'salary.employee_salary')
             ->where('users.id', $id)
             ->first();
 

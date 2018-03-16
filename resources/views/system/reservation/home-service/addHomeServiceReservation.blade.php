@@ -117,20 +117,23 @@
 
 					<div class="row col-lg-12">
 						<br><h3>Services :</h3>
-						@foreach($service_types as $service_type)
-							<br><h3>{{$service_type->name}}</h3><br>
-							<ul class="checkboxes1" style="columns: 4 8em;">
-	                        @foreach($services as $service)
-	                        	@if($service->service_type_id == $service_type->id)
-	                        	<label>
-	                        		<input type="checkbox" name="service_id[]" value="{{$service->id}}" 
-	                        		@if(is_array(old('service_id')) && in_array($service->id, old('service_id'))) checked @endif />
-	                        		{{$service->name}} (&#8369;{{$service->price}})
-	                        	</label>
-	                        	@endif
-	                        @endforeach 
-	                    	</ul>
-	                    @endforeach
+						@foreach($expertise as $expertise1)
+							<div id="expertise{{$expertise1->id}}">
+								<h3>{{$expertise1->name}}</h3>
+								<ul class="checkboxes1" style="columns: 4 8em;">
+			                        @foreach($services as $service)
+		                        		@if($service->expertise_id == $expertise1->id)
+			                        		<label>
+				                        		<input type="checkbox" name="service_id[]" value="{{$service->id}}" style="" 
+				                        		@if(is_array(old('service_id')) && in_array($service->id, old('service_id'))) checked @endif />
+				                        		{{$service->name}} (&#8369;{{$service->price}})
+			                        		</label>
+		                        		@endif
+			                        @endforeach 
+			                    </ul>
+		                    </div>
+						@endforeach
+
 					</div>
 
 					<div class="row col-lg-12">

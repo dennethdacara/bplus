@@ -131,11 +131,11 @@
 									<ul class="checkboxes1" style="columns: 4 8em;">
 				                        @foreach($services as $service)
 			                        		@if($service->expertise_id == $expertise1->id)
-			                        		<label>
-				                        		<input type="checkbox" name="service_id[]" value="{{$service->id}}" style="" 
-				                        		@if(is_array(old('service_id')) && in_array($service->id, old('service_id'))) checked @endif />
-				                        		{{$service->name}} (&#8369;{{$service->price}})
-			                        		</label>
+				                        		<label>
+					                        		<input type="checkbox" name="service_id[]" value="{{$service->id}}" style="" 
+					                        		@if(is_array(old('service_id')) && in_array($service->id, old('service_id'))) checked @endif />
+					                        		{{$service->name}} (&#8369;{{$service->price}})
+				                        		</label>
 			                        		@endif
 				                        @endforeach 
 				                    </ul>

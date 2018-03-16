@@ -23,7 +23,7 @@
 				    	<center>Receipt</center>
 				    	<center>**********************************</center>
 				    	<br>
-				    	<center><b style="color:black;">Beauty Salon Plus</b></center><br>
+				    	<center><b style="color:black;">Beauty Plus Salon</b></center><br>
 
 				    	<div class="col-lg-6 col-md-offset-3">
 							<p style="display:inline-block;"><b style="color:black;">Customer:</b></p>

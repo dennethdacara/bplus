@@ -41,9 +41,10 @@ class ReservationsController extends Controller
     	$employees = User::join('expertise', 'expertise.id', 'users.expertise_id')
             ->select('users.id', 'users.firstname', 'users.lastname', 'expertise.name as expertise')
             ->where('role_id', User::IS_EMPLOYEE)->get();
+        $expertise = Expertise::all();
 
     	return view ('system/reservation/home-service/addHomeServiceReservation', 
-    		compact('service_types', 'services', 'employees'));
+    		compact('service_types', 'services', 'employees', 'expertise'));
     }
 
     public function storeHomeServiceReservation(Request $request) {
@@ -185,9 +186,10 @@ class ReservationsController extends Controller
     	$employees = User::join('expertise', 'expertise.id', 'users.expertise_id')
             ->select('users.id', 'users.firstname', 'users.lastname', 'expertise.name as expertise')
             ->where('role_id', User::IS_EMPLOYEE)->get();
+        $expertise = Expertise::all();
             
     	return view ('system/reservation/on-spa/addOnSpaReservation', 
-    		compact('service_types', 'services', 'employees'));
+    		compact('service_types', 'services', 'employees', 'expertise'));
     }
 
     public function storeOnSpaReservation(Request $request) {
