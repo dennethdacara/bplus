@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 use App\Service;
+use App\Expertise;
 use App\Reservation;
 use App\ServiceType;
 use App\ReservationService;
@@ -49,11 +50,12 @@ class CustomerReservationController extends Controller
     	$service_types = ServiceType::all();
     	$services = Service::all();
     	$employees = User::join('expertise', 'expertise.id', 'users.expertise_id')
-            ->select('users.firstname', 'users.lastname', 'users.id', 'expertise.name as expertise')
+            ->select('users.firstname', 'users.lastname', 'users.id', 'expertise.name as expertise', 'expertise.id as expertise_id')
             ->where('role_id', User::IS_EMPLOYEE)->get();
+        $expertise = Expertise::all();
 
     	return view ('customers/reservation/home-service/addHomeServiceReservation', 
-    		compact('service_types', 'services', 'employees'));
+    		compact('service_types', 'services', 'employees', 'expertise'));
     }
 
     public function storeHomeServiceReservation(Request $request) {
@@ -116,11 +118,12 @@ class CustomerReservationController extends Controller
     	$service_types = ServiceType::all();
     	$services = Service::all();
     	$employees = User::join('expertise', 'expertise.id', 'users.expertise_id')
-            ->select('users.firstname', 'users.lastname', 'users.id', 'expertise.name as expertise')
+            ->select('users.firstname', 'users.lastname', 'users.id', 'expertise.name as expertise', 'expertise.id as expertise_id')
             ->where('role_id', User::IS_EMPLOYEE)->get();
+        $expertise = Expertise::all();
 
     	return view ('customers/reservation/on-spa/addOnSpaReservation',
-    		compact('service_types', 'services', 'employees'));
+    		compact('service_types', 'services', 'employees', 'expertise'));
     }
 
     public function storeOnSpaReservation(Request $request) {

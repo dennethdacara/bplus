@@ -37,7 +37,7 @@ class WalkinController extends Controller
     {
         $hairstylists = User::join('expertise', 'expertise.id', 'users.expertise_id')
             ->select('users.firstname as firstname', 'users.lastname as lastname', 'expertise.name as expertise',
-                    'users.id as id')
+                    'users.id as id', 'expertise.id as expertise_id')
             ->where('role_id', User::IS_EMPLOYEE)->get();
 
         $service_types = ServiceType::all();

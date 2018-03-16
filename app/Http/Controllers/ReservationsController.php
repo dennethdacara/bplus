@@ -39,7 +39,7 @@ class ReservationsController extends Controller
     	$service_types = ServiceType::all();
     	$services = Service::all();
     	$employees = User::join('expertise', 'expertise.id', 'users.expertise_id')
-            ->select('users.id', 'users.firstname', 'users.lastname', 'expertise.name as expertise')
+            ->select('users.id', 'users.firstname', 'users.lastname', 'expertise.name as expertise', 'expertise.id as expertise_id')
             ->where('role_id', User::IS_EMPLOYEE)->get();
         $expertise = Expertise::all();
 
@@ -184,7 +184,7 @@ class ReservationsController extends Controller
     	$service_types = ServiceType::all();
     	$services = Service::all();
     	$employees = User::join('expertise', 'expertise.id', 'users.expertise_id')
-            ->select('users.id', 'users.firstname', 'users.lastname', 'expertise.name as expertise')
+            ->select('users.id', 'users.firstname', 'users.lastname', 'expertise.name as expertise', 'expertise.id as expertise_id')
             ->where('role_id', User::IS_EMPLOYEE)->get();
         $expertise = Expertise::all();
             

@@ -227,7 +227,6 @@
             "aLengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
             "order": [[ 3, "desc" ]] // column index, order ex. descending, ascending
         });
-
     </script>
     
     <!-- USERS CREATE MODULE -->
@@ -261,6 +260,49 @@
             document.title = 'BeautyPlusSalon-Receipt-'+timestamp+' '+current_time+'.pdf';
             window.print();
         });
+    </script>
+
+    <script>
+        $('#selectWalkinEmpId').on('change', function() {
+            $('.sample').hide();
+            $(this).find('option:selected').each(function() {
+                var id = $(this).data("id");
+                document.getElementById(id).style.display = "block";
+            })
+        })
+
+        $('#SelectHomeServiceEmpId').on('change', function() {
+            $('.sample1').hide();
+            $(this).find('option:selected').each(function() {
+                var id1 = $(this).data("id");
+                document.getElementById(id1).style.display = "block";
+            })
+        })
+
+        $('#SelectOnSalonEmpId').on('change', function() {
+            $('.sample2').hide();
+            $(this).find('option:selected').each(function() {
+                var id2 = $(this).data("id");
+                document.getElementById(id2).style.display = "block";
+            })
+        })
+
+        //Customer
+        $('#CustomerSelectHomeServiceEmpId').on('change', function() {
+            $('.sample3').hide();
+            $(this).find('option:selected').each(function() {
+                var id3 = $(this).data("id");
+                document.getElementById(id3).style.display = "block";
+            })
+        })
+
+        $('#CustomerSelectOnSalonEmpId').on('change', function() {
+            $('.sample4').hide();
+            $(this).find('option:selected').each(function() {
+                var id4 = $(this).data("id");
+                document.getElementById(id4).style.display = "block";
+            })
+        })
     </script>
 
 </body>

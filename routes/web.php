@@ -120,11 +120,9 @@ route::group(['middleware' => 'auth'], function() {
 
 	//INFRACTIONS
 	route::get('admin/employee/infractions', 'InfractionsController@viewEmployeeInfractions')->name('viewEmployeeInfractions');
-
 	route::get('admin/employee/infractions/create', 'InfractionsController@create')->name('createEmployeeInfraction');
 	route::post('admin/employee/infractions/store', 'InfractionsController@store')->name('storeEmployeeInfraction');
 	route::get('admin/employee/infractions/{id}', 'InfractionsController@destroy')->name('destroyEmployeeInfraction');
-
 	route::get('employee/infractions', 'EmployeeInfractionsController@index')->name('employeeInfractions');
 	
 });

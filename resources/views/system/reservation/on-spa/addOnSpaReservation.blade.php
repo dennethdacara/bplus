@@ -93,9 +93,9 @@
 
 						<div class="col-lg-6 col-md-6">
 							<br><label>Hair Stylist:</label>
-							<select name="employee_id[]" class="selectpicker form-control" id="multiHairstylist" multiple data-live-search="true" multiple data-selected-text-format="count > 1">
+							<select name="employee_id[]" class="selectpicker form-control" id="SelectOnSalonEmpId" multiple data-live-search="true" multiple data-selected-text-format="count > 1">
 								@foreach($employees as $employee)
-									<option value="{{$employee->id}}">{{$employee->firstname}} {{$employee->lastname}} | Expertise: {{$employee->expertise}}</option>
+									<option value="{{$employee->id}}" data-id="{{$employee->expertise_id}}">{{$employee->firstname}} {{$employee->lastname}} | Expertise: {{$employee->expertise}}</option>
 								@endforeach
 							</select>
 
@@ -109,7 +109,7 @@
 					<div class="row col-lg-12">
 						<br><h3>Services :</h3>
 						@foreach($expertise as $expertise1)
-							<div id="expertise{{$expertise1->id}}">
+							<div id="{{$expertise1->id}}" class="sample2" style="display:none;">
 								<h3>{{$expertise1->name}}</h3>
 								<ul class="checkboxes1" style="columns: 4 8em;">
 			                        @foreach($services as $service)
