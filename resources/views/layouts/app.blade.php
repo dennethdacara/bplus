@@ -12,14 +12,10 @@
     <link href="{{ asset('template/css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('template/css/footer.css') }}" rel="stylesheet">
     <link href="{{ asset('template/css/font-awesome.min.css') }}" rel="stylesheet">
-    
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css" rel="stylesheet">
-    
-
     <!-- JQuery DataTable Css -->
     <link href="{{ asset('template/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css') }}" 
     rel="stylesheet" media="all">
-
     <!-- Sweet Alert Notif -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" rel="stylesheet">
     <!-- -->
@@ -70,27 +66,7 @@
     <!-- Air DatePicker -->
     <script src="{{ asset('air-datepicker/dist/js/datepicker.min.js') }}"></script>
     <script src="{{ asset('air-datepicker/dist/js/i18n/datepicker.en.js') }}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
-    
-    
-    <!-- -->
-   <!--  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
-   <script>
-       var app6 = new Vue({
-         el: '#vue-Register',
-         data: {
-           firstname: '',
-           lastname: '',
-           contact: '',
-           email: '',
-           gender: '',
-           address: ''
-         }
-       })
-   </script> -->
-
-    <!--VUEJS-->
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>    
 
     <script>
         //for walkin customer
@@ -99,7 +75,6 @@
             language: 'en',
             minDate: new Date(), // Now can select only dates, which goes after today
         })
-
     </script>
     
     <!-- DATA TABLES -->

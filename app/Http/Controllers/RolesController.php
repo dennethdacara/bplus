@@ -1,19 +1,23 @@
 <?php
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
-use Auth, Alert;
+use Auth, Alert, Input;
 use App\User, App\Role;
+use App\Repositories\Crudable\GenericCrudRepository;
 
 class RolesController extends Controller
 {
-    public function __construct()
+    protected $model;
+
+    public function __construct(Role $role)
     {
+        $this->model = new GenericCrudRepository($role);
         $this->middleware('auth');
     }
 
     public function index()
     {
-        $roles = Role::all();
+        $roles = $this->model->getAll();
         return view ('system/roles/index', compact('roles'));
     }
 
@@ -24,24 +28,15 @@ class RolesController extends Controller
 
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'name' => 'required'
-        ]);
+        $this->validateInput($request);
+        $exists = $this->model->exists($request->name);
 
-        //check if role already exists
-        $checkExistingRole = \DB::table('roles')
-            ->where('name', 'LIKE', $request->name)
-            ->first();
-
-        if($checkExistingRole){
+        if($exists){
             Alert::error('Role already exists!')->autoclose(1000);
             return redirect()->back()->withInput(Input::all());
         }
 
-        $createRole = Role::create([
-            'name' => $request->name,
-        ]);
-
+        $this->model->storeCollection($request);
         Alert::success('Role has been Added!')->persistent("OK");
         return redirect()->route('roles.index');
     }
@@ -59,23 +54,20 @@ class RolesController extends Controller
 
     public function update(Request $request, $id)
     {
-        
-        $this->validate($request, [
-            'name' => 'required'
-        ]);
-
-        $role = Role::findOrFail($id);
-        $role->name = $request->name;
-        $role->save();
-
+        $this->validateInput($request);
+        $this->model->update($request->all(), $id);
         Alert::success('Role has been updated!')->persistent("OK");
         return redirect()->route('roles.index');
     }
 
     public function destroy($id)
     {
-        $role = Role::findOrFail($id)->delete();
+        $this->model->delete($id);
         Alert::success('Role has been deleted!')->persistent("OK");
         return redirect()->back();
+    }
+
+    private function validateInput($request) {
+        $this->validate($request, ['name' => 'required']);
     }
 }
