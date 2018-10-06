@@ -11,31 +11,15 @@ class ExpertiseTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('expertise')->insert([
-        	[
-        		'name' => 'Haircut',
-        		'service_fee' => 50,
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
-        	],
-        	[
-        		'name' => 'Manicure/Pedicure',
-        		'service_fee' => 40,
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
-        	],
-            [
-                'name' => 'Foot Spa',
-                'service_fee' => 60,
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
-            ],
-            [
-                'name' => 'All Around',
-                'service_fee' => 100,
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
-            ],
-        ]);
+        DB::table('expertise')->delete();
+        $json = storage_path() . "/json_data/expertise.json";
+        $data = json_decode(file_get_contents($json, true));
+        foreach ($data as $obj) {
+            App\Expertise::create([
+                'id' => $obj->id,
+                'name' => $obj->name,
+                'service_fee' => $obj->service_fee,
+            ]);
+        }
     }
 }

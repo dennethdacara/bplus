@@ -11,23 +11,14 @@ class RolesTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('roles')->insert([
-        	[
-        		'name' => 'admin',
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
-        	],
-        	[
-        		'name' => 'customer',
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
-        	],
-        	[
-        		'name' => 'employee',
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
-        	],
-
-        ]);
+        DB::table('roles')->delete();
+        $json = storage_path() . "/json_data/roles.json";
+        $data = json_decode(file_get_contents($json, true));
+        foreach ($data as $obj) {
+            App\Role::create([
+                'id' => $obj->id,
+                'name' => $obj->name,
+            ]);
+        }
     }
 }

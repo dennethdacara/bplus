@@ -1,19 +1,22 @@
 <?php
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
-use Alert, Auth;
-use App\ServiceType;
+use Alert, Auth, App\ServiceType;
+use App\Repositories\Crudable\GenericCrudRepository;
 
 class ServiceTypeController extends Controller
 {
-    public function __construct()
+    protected $model;
+
+    public function __construct(ServiceType $serviceType)
     {
+        $this->model = new GenericCrudRepository($serviceType);
         $this->middleware('auth');
     }
 
     public function index()
     {
-        $serviceTypes = ServiceType::all();
+        $serviceTypes = $this->model->getAll();
         return view ('system/service-type/index', compact('serviceTypes'));
     }
 
@@ -22,31 +25,20 @@ class ServiceTypeController extends Controller
         return view ('system/service-type/create');
     }
 
-
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'name' => 'required'
-        ]);
+        $this->validateInput($request);
+        $exists = $this->model->exists($request->name);
 
-        //check if service type already exists
-        $checkExistingServiceType = \DB::table('service_type')
-            ->where('name', 'LIKE', $request->name)
-            ->first();
-
-        if($checkExistingServiceType){
+        if($exists){
             Alert::error('Service Type already exists!')->autoclose(1000);
             return redirect()->back()->withInput(Input::all());
         }
 
-        $createServiceType = ServiceType::create([
-            'name' => $request->name,
-        ]);
-
+        $this->model->storeCollection($request);
         Alert::success('Service Type has been Added!')->autoclose(1000);
         return redirect()->route('service-type.index');
     }
-
 
     public function show($id)
     {
@@ -61,22 +53,21 @@ class ServiceTypeController extends Controller
 
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            'name' => 'required'
-        ]);
-
-        $serviceType = ServiceType::find($id);
-        $serviceType->name = $request->name;
-        $serviceType->save();
+        $this->validateInput($request);
+        $this->model->update($request->all(), $id);
         Alert::success('Service Type has been updated!')->autoclose(1000);
         return redirect()->route('service-type.index');
-
     }
 
     public function destroy($id)
     {
-        $serviceType = ServiceType::findOrFail($id)->delete();
+        $this->model->delete($id);
         Alert::success('Service Type has been deleted!')->autoclose(1000);
         return redirect()->back();
+    }
+
+    private function validateInput($request)
+    {
+        $this->validate($request, ['name' => 'required']);
     }
 }

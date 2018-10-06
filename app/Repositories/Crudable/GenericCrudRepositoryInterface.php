@@ -16,4 +16,10 @@ interface GenericCrudRepositoryInterface
 
   public function exists($name);
 
+  public function getServices();
+
+  public function getSalaries();
+
+  public function findSalary($id);
+
 }

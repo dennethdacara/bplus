@@ -11,33 +11,17 @@ class InfractionsTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('infractions')->insert([
-        	[
-        		'employee_id' => 5,
-        		'date' => '03/15/2018',
-        		'type' => 'Absent',
-        		'deduction' => 113,
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
-        	],
-
-        	[
-        		'employee_id' => 6,
-        		'date' => '03/16/2018',
-        		'type' => 'Absent',
-        		'deduction' => 113,
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
-        	],
-
-        	[
-        		'employee_id' => 7,
-        		'date' => '03/17/2018',
-        		'type' => 'Absent',
-        		'deduction' => 113,
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
-        	],
-        ]);
+        DB::table('infractions')->delete();
+        $json = storage_path() . "/json_data/infractions.json";
+        $data = json_decode(file_get_contents($json, true));
+        foreach ($data as $obj) {
+            App\Infraction::create([
+                'id' => $obj->id,
+                'employee_id' => $obj->employee_id,
+				'date' => $obj->date,
+				'type' => $obj->type,
+				'deduction' => $obj->deduction,
+            ]);
+        }
     }
 }

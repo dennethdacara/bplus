@@ -1,0 +1,5 @@
+[
+  {"id": "1", "employee_id": "5", "date": "03/15/2018", "type": "Absent", "deduction": "113"},
+  {"id": "2", "employee_id": "6", "date": "03/16/2018", "type": "Absent", "deduction": "113"},
+  {"id": "3", "employee_id": "7", "date": "03/17/2018", "type": "Absent", "deduction": "113"}
+]

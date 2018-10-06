@@ -1,20 +1,23 @@
 <?php
 namespace App\Http\Controllers;
-use App\Expertise;
+use App\Expertise, App\User;
 use Auth, DB, Alert;
-use App\User;
 use Illuminate\Http\Request;
+use App\Repositories\Crudable\GenericCrudRepository;
 
 class ExpertiseController extends Controller
 {
-    public function __construct()
+    protected $model;
+
+    public function __construct(Expertise $expertise)
     {
+        $this->model = new GenericCrudRepository($expertise);
         $this->middleware('auth');
     }
 
     public function index()
     {
-        $expertise = Expertise::all();
+        $expertise = $this->model->getAll();
         return view ('system/expertise/index', compact('expertise'));
     }
 
@@ -25,34 +28,17 @@ class ExpertiseController extends Controller
 
     public function store(Request $request)
     {
+        $this->validateInput($request);
+        $exists = $this->model->exists($request->name);
 
-        $this->validate($request, [
-            'name' => 'required', 'service_fee' => 'required'
-        ]);
-
-        //check if expertise already exists
-        $checkExistingExpertise = \DB::table('expertise')
-            ->where('name', 'LIKE', $request->name)
-            ->first();
-
-        if($checkExistingExpertise){
+        if($exists){
             Alert::error('Expertise already exists!')->autoclose(1000);
             return redirect()->back()->withInput(Input::all());
         }
 
-        $insertExpertise = Expertise::create([
-            'name' => $request->name,
-            'service_fee' => $request->service_fee
-        ]);
-
+        $this->model->storeCollection($request);
         Alert::success('Expertise created successfully!')->autoclose(1000);
         return redirect()->route('expertise.index');
-
-    }
-
-    public function show($id)
-    {
-        //
     }
 
     public function edit($id)
@@ -63,24 +49,21 @@ class ExpertiseController extends Controller
 
     public function update(Request $request, $id)
     {
-        
-        $this->validate($request, [
-            'name' => 'required', 'service_fee' => 'required'
-        ]);
-
-        $expertise = Expertise::find($id);
-        $expertise->name = $request->name;
-        $expertise->service_fee = $request->service_fee;
-        $expertise->save();
-
+        $this->validateInput($request);
+        $this->model->update($request->all(), $id);
         Alert::success('Expertise Updated!')->autoclose(1000);
         return redirect()->route('expertise.index');
     }
 
     public function destroy($id)
     {
-        $expertise = Expertise::findOrFail($id)->delete();
+        $this->model->delete($id);
         Alert::success('Expertise deleted successfully!')->autoclose(1000);
         return redirect()->back();
+    }
+
+    private function validateInput($request)
+    {
+        $this->validate($request, ['name' => 'required', 'service_fee' => 'required']);
     }
 }

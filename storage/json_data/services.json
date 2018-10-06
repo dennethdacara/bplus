@@ -1,0 +1,23 @@
+[
+  {"id": "1", "name": "Hair Cut", "price": "49", "service_type_id": "1", "expertise_id": "1"},
+  {"id": "2", "name": "Hot Oil", "price": "99", "service_type_id": "1", "expertise_id": "1"},
+  {"id": "3", "name": "Hi-Lites", "price": "199", "service_type_id": "1", "expertise_id": "1"},
+  {"id": "4", "name": "Hair Color", "price": "399", "service_type_id": "1", "expertise_id": "1"},
+  {"id": "5", "name": "Hair Cellophane", "price": "299", "service_type_id": "1", "expertise_id": "1"},
+  {"id": "6", "name": "Hair Perming", "price": "399", "service_type_id": "1", "expertise_id": "1"},
+  {"id": "7", "name": "Semi Rebond", "price": "499", "service_type_id": "1", "expertise_id": "1"},
+  {"id": "8", "name": "Hair Rebonding", "price": "999", "service_type_id": "1", "expertise_id": "1"},
+  {"id": "9", "name": "Brazilian Blowout", "price": "1299", "service_type_id": "1", "expertise_id": "1"},
+  {"id": "10", "name": "Hair and Make-up", "price": "599", "service_type_id": "1", "expertise_id": "1"},
+  {"id": "11", "name": "Hair Spa", "price": "149", "service_type_id": "1", "expertise_id": "1"},
+  {"id": "12", "name": "Hair Blower", "price": "49", "service_type_id": "1", "expertise_id": "1"},
+  {"id": "13", "name": "Hair Ironing", "price": "149", "service_type_id": "1", "expertise_id": "1"},
+  {"id": "14", "name": "Keratin", "price": "299", "service_type_id": "1", "expertise_id": "1"},
+  {"id": "15", "name": "Hair Color and Treatment", "price": "699", "service_type_id": "1", "expertise_id": "1"},
+  {"id": "16", "name": "Manicure", "price": "59", "service_type_id": "2", "expertise_id": "2"},
+  {"id": "17", "name": "Pedicure", "price": "59", "service_type_id": "2", "expertise_id": "2"},
+  {"id": "18", "name": "Foot Spa", "price": "149", "service_type_id": "2", "expertise_id": "3"},
+  {"id": "19", "name": "Change Polish", "price": "50", "service_type_id": "2", "expertise_id": "2"},
+  {"id": "20", "name": "Gel Polish", "price": "300", "service_type_id": "2", "expertise_id": "2"},
+  {"id": "21", "name": "Mani/Pedi with Nail Arts", "price": "150", "service_type_id": "2", "expertise_id": "2"}
+]

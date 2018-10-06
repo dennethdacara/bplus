@@ -1,0 +1,6 @@
+[
+  {"id": "1", "name": "Haircut", "service_fee": "50"},
+  {"id": "2", "name": "Manicure/Pedicure", "service_fee": "40"},
+  {"id": "3", "name": "Foot Spa", "service_fee": "60"},
+  {"id": "4", "name": "All Around", "service_fee": "100"}
+]

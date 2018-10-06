@@ -11,17 +11,14 @@ class ServiceTypeTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('service_type')->insert([
-        	[
-        		'name' => 'HAIR FASHION AND TREATMENTS',
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
-        	],
-        	[
-        		'name' => 'OTHER TREATMENTS',
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
-        	],
-        ]);
+        DB::table('service_type')->delete();
+        $json = storage_path() . "/json_data/service_types.json";
+        $data = json_decode(file_get_contents($json, true));
+        foreach ($data as $obj) {
+            App\ServiceType::create([
+                'id' => $obj->id,
+                'name' => $obj->name,
+            ]);
+        }
     }
 }
