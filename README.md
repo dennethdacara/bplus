@@ -2,7 +2,7 @@
 
 ### run on terminal:
 
-> git clone https://gitlab.com/WeBuffSolutionsDevelopers/beautyplus.git
+> git clone https://github.com/dennethdacara/bplus.git
 
 > composer update
 
@@ -12,22 +12,25 @@
 
 ### run on terminal:
 
-> php artisan migrate
+> alias pa="php artisan"
 
-> php artisan db:seed
+> pa migrate --seed
 
-> php artisan key:generate
+> pa key:generate
 
-> php artisan config:clear
+> pa config:clear
 
-### Admin default login:
+### Login Credentials:
 
-e: admin@gmail.com
-p: password
+role: admin
+email: admin@gmail.com
+pass: !@#$%^
 
-e: customer_a@gmail.com
-p: password
+role: customer
+email: joshiah_recio@gmail.com
+pass: !@#$%^
 
-e: michelle_cruz@gmail.com
-p: password
+role: employee
+email: romina_pacheco@gmail.com
+pass: !@#$%^
 
